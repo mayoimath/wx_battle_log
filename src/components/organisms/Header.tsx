@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Link } from "@chakra-ui/react";
+import { Flex, Heading, Link } from "@chakra-ui/react";
 
 const Header = () => {
   return (
