@@ -2,6 +2,7 @@ import { Button, Flex, Input, Stack, Switch } from "@chakra-ui/react";
 import PrimaryCombobox from "../atoms/PrimaryCombobox";
 import type { Battle } from "@/types/Battle";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
+import PrimarySwitch from "../atoms/PrimarySwitch";
 
 type FormValue = {
   title: string;
@@ -59,41 +60,27 @@ const Home = () => {
             <Controller
               name={`battles.${index}.isFirst`}
               control={control}
-              render={({ field }) => (
-                <Switch.Root
-                  name={field.name}
-                  checked={field.value}
-                  onChange={field.onChange}
-                  size="lg"
-                  colorPalette={"green"}
-                  color="green.200"
-                >
-                  <Switch.HiddenInput onBlur={field.onBlur} />
-                  <Switch.Control>
-                    <Switch.Thumb />
-                    <Switch.Indicator fallback="後">先</Switch.Indicator>
-                  </Switch.Control>
-                </Switch.Root>
+              render={({ field: { name, value, onChange, onBlur } }) => (
+                <PrimarySwitch
+                  name={name}
+                  value={value}
+                  onChange={onChange}
+                  onBlur={onBlur}
+                  innerLabel={{ on: "先", off: "後" }}
+                />
               )}
             />
             <Controller
               name={`battles.${index}.won`}
               control={control}
-              render={({ field }) => (
-                <Switch.Root
-                  name={field.name}
-                  checked={field.value}
-                  onChange={field.onChange}
-                  size="lg"
-                  colorPalette={"green"}
-                  color="green.200"
-                >
-                  <Switch.HiddenInput onBlur={field.onBlur} />
-                  <Switch.Control>
-                    <Switch.Thumb />
-                    <Switch.Indicator fallback="敗">勝</Switch.Indicator>
-                  </Switch.Control>
-                </Switch.Root>
+              render={({ field: { name, value, onChange, onBlur } }) => (
+                <PrimarySwitch
+                  name={name}
+                  value={value}
+                  onChange={onChange}
+                  onBlur={onBlur}
+                  innerLabel={{ on: "勝", off: "敗" }}
+                />
               )}
             />
             <Button onClick={() => remove(index)}>削除</Button>
