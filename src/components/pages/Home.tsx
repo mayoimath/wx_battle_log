@@ -1,26 +1,116 @@
-import { Flex, Input, Stack } from "@chakra-ui/react";
+import { Button, Flex, Input, Stack, Switch } from "@chakra-ui/react";
 import PrimaryCombobox from "../atoms/PrimaryCombobox";
-import BattleResult from "../molecules/BattleResult";
+import type { Battle } from "@/types/Battle";
+import { Controller, useFieldArray, useForm } from "react-hook-form";
+
+type FormValue = {
+  title: string;
+  lrig: string;
+  battles: Array<Battle>;
+};
 
 const Home = () => {
+  const dummyDefaultValues: FormValue = {
+    title: "xxxx",
+    lrig: "1",
+    battles: [
+      { lrig: "2", isFirst: true, won: true },
+      { lrig: "3", isFirst: false, won: false },
+    ],
+  };
   const lrigList = [
     { label: "タマ", value: "1" },
     { label: "花代", value: "2" },
     { label: "緑子", value: "3" },
     { label: "ピルルク", value: "4" },
   ];
+  const { register, control, handleSubmit } = useForm<FormValue>({
+    defaultValues: dummyDefaultValues,
+  });
+  const { fields, append, remove } = useFieldArray({
+    name: "battles",
+    control,
+  });
   return (
-    <>
+    <form onSubmit={handleSubmit((data) => console.log(data))}>
       <Flex m={4} gap={4}>
-        <Input placeholder="タイトル" width={{ base: "100%", sm: "50%" }} />
-        <PrimaryCombobox items={lrigList} label="使用ルリグ" />
+        <Input
+          {...register("title")}
+          placeholder="タイトル"
+          width={{ base: "100%", sm: "50%" }}
+        />
+        <PrimaryCombobox
+          control={control}
+          items={lrigList}
+          name="lrig"
+          label="使用ルリグ"
+        />
       </Flex>
       <Stack m={4} gap={4}>
-        {Array.from({ length: 3 }).map((_, index) => (
-          <BattleResult index={index} lrigList={lrigList} />
+        {fields.map((field, index) => (
+          // <BattleResult key={field.id} index={index} lrigList={lrigList} />
+          <Flex key={field.id} gap={8}>
+            <PrimaryCombobox
+              control={control}
+              name={`battles.${index}.lrig`}
+              items={lrigList}
+              label="使用ルリグ"
+            />
+            <Controller
+              name={`battles.${index}.isFirst`}
+              control={control}
+              render={({ field }) => (
+                <Switch.Root
+                  name={field.name}
+                  checked={field.value}
+                  onChange={field.onChange}
+                  size="lg"
+                  colorPalette={"green"}
+                  color="green.200"
+                >
+                  <Switch.HiddenInput onBlur={field.onBlur} />
+                  <Switch.Control>
+                    <Switch.Thumb />
+                    <Switch.Indicator fallback="後">先</Switch.Indicator>
+                  </Switch.Control>
+                </Switch.Root>
+              )}
+            />
+            <Controller
+              name={`battles.${index}.won`}
+              control={control}
+              render={({ field }) => (
+                <Switch.Root
+                  name={field.name}
+                  checked={field.value}
+                  onChange={field.onChange}
+                  size="lg"
+                  colorPalette={"green"}
+                  color="green.200"
+                >
+                  <Switch.HiddenInput onBlur={field.onBlur} />
+                  <Switch.Control>
+                    <Switch.Thumb />
+                    <Switch.Indicator fallback="敗">勝</Switch.Indicator>
+                  </Switch.Control>
+                </Switch.Root>
+              )}
+            />
+            <Button onClick={() => remove(index)}>削除</Button>
+          </Flex>
         ))}
       </Stack>
-    </>
+      <Button
+        onClick={() => append({ lrig: "1", isFirst: true, won: true })}
+        m={4}
+        mr={0}
+      >
+        追加
+      </Button>
+      <Button type="submit" m={4}>
+        登録
+      </Button>
+    </form>
   );
 };
 
