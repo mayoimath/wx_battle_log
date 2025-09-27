@@ -1,7 +1,7 @@
-import { Button, Flex, Input, Stack, Switch } from "@chakra-ui/react";
+import { Button, Flex, Input, Stack } from "@chakra-ui/react";
 import PrimaryCombobox from "../atoms/PrimaryCombobox";
 import type { Battle } from "@/types/Battle";
-import { Controller, useFieldArray, useForm } from "react-hook-form";
+import { useController, useFieldArray, useForm } from "react-hook-form";
 import PrimarySwitch from "../atoms/PrimarySwitch";
 
 type FormValue = {
@@ -32,6 +32,10 @@ const Home = () => {
     name: "battles",
     control,
   });
+  const { field: lrig } = useController({
+    name: "lrig",
+    control,
+  });
   return (
     <form onSubmit={handleSubmit((data) => console.log(data))}>
       <Flex m={4} gap={4}>
@@ -40,52 +44,35 @@ const Home = () => {
           placeholder="タイトル"
           width={{ base: "100%", sm: "50%" }}
         />
-        <PrimaryCombobox
-          control={control}
-          items={lrigList}
-          name="lrig"
-          label="使用ルリグ"
-        />
+        <PrimaryCombobox {...lrig} items={lrigList} label="使用ルリグ" />
       </Flex>
       <Stack m={4} gap={4}>
-        {fields.map((field, index) => (
-          // <BattleResult key={field.id} index={index} lrigList={lrigList} />
-          <Flex key={field.id} gap={8}>
-            <PrimaryCombobox
-              control={control}
-              name={`battles.${index}.lrig`}
-              items={lrigList}
-              label="使用ルリグ"
-            />
-            <Controller
-              name={`battles.${index}.isFirst`}
-              control={control}
-              render={({ field: { name, value, onChange, onBlur } }) => (
-                <PrimarySwitch
-                  name={name}
-                  value={value}
-                  onChange={onChange}
-                  onBlur={onBlur}
-                  innerLabel={{ on: "先", off: "後" }}
-                />
-              )}
-            />
-            <Controller
-              name={`battles.${index}.won`}
-              control={control}
-              render={({ field: { name, value, onChange, onBlur } }) => (
-                <PrimarySwitch
-                  name={name}
-                  value={value}
-                  onChange={onChange}
-                  onBlur={onBlur}
-                  innerLabel={{ on: "勝", off: "敗" }}
-                />
-              )}
-            />
-            <Button onClick={() => remove(index)}>削除</Button>
-          </Flex>
-        ))}
+        {fields.map((field, index) => {
+          const { field: enemy } = useController({
+            name: `battles.${index}.lrig`,
+            control,
+          });
+          const { field: isFirst } = useController({
+            name: `battles.${index}.isFirst`,
+            control,
+          });
+          const { field: Won } = useController({
+            name: `battles.${index}.won`,
+            control,
+          });
+          return (
+            // <BattleResult key={field.id} index={index} lrigList={lrigList} />
+            <Flex key={field.id} gap={8}>
+              <PrimaryCombobox {...enemy} items={lrigList} label="使用ルリグ" />
+              <PrimarySwitch
+                {...isFirst}
+                innerLabel={{ on: "先", off: "後" }}
+              />
+              <PrimarySwitch {...Won} innerLabel={{ on: "勝", off: "負" }} />
+              <Button onClick={() => remove(index)}>削除</Button>
+            </Flex>
+          );
+        })}
       </Stack>
       <Button
         onClick={() => append({ lrig: "1", isFirst: true, won: true })}

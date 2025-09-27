@@ -10,7 +10,7 @@ type Props = {
 const BattleResult = ({ index, lrigList }: Props) => {
   return (
     <Flex key={index} gap={8}>
-      <PrimaryCombobox items={lrigList} label="使用ルリグ" />
+      {/* <PrimaryCombobox items={lrigList} label="使用ルリグ" /> */}
       <Switch
         size="lg"
         colorPalette={"green"}

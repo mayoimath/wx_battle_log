@@ -1,11 +1,10 @@
 import { Switch } from "@chakra-ui/react";
-import { type FocusEventHandler, type FormEventHandler } from "react";
 
 type Props = {
   name: string;
   value: boolean;
-  onChange: FormEventHandler<HTMLLabelElement>;
-  onBlur: FocusEventHandler<HTMLInputElement>;
+  onChange: (value: any) => void;
+  onBlur: () => void;
   innerLabel?: { on: string; off: string };
 };
 
