@@ -1,18 +1,13 @@
 import { Route, Routes } from "react-router";
 import { HeaderLayout } from "../components/templates/HeaderLayout";
-import Home from "../components/pages/Home";
+import Edit from "../components/pages/Edit";
 
 export const Router = () => {
   return (
     <Routes>
-      <Route
-        index
-        element={
-          <HeaderLayout>
-            <Home />
-          </HeaderLayout>
-        }
-      />
+      <Route element={<HeaderLayout />}>
+        <Route index element={<Edit />} />
+      </Route>
     </Routes>
   );
 };

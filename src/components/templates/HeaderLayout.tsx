@@ -1,15 +1,11 @@
-import type { ReactNode } from "react";
 import Header from "../organisms/Header";
+import { Outlet } from "react-router";
 
-type Props = {
-  children: ReactNode;
-};
-
-export const HeaderLayout = ({ children }: Props) => {
+export const HeaderLayout = () => {
   return (
     <>
       <Header />
-      {children}
+      <Outlet />
     </>
   );
 };

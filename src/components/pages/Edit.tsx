@@ -10,7 +10,7 @@ type FormValue = {
   battles: Array<Battle>;
 };
 
-const Home = () => {
+const Edit = () => {
   const dummyDefaultValues: FormValue = {
     title: "xxxx",
     lrig: "1",
@@ -88,4 +88,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Edit;
