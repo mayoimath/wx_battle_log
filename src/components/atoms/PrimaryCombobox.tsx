@@ -2,9 +2,11 @@ import type { ComboboxItem } from "@/types/ComboboxItem";
 import {
   Combobox,
   Portal,
+  useCombobox,
   useFilter,
   useListCollection,
 } from "@chakra-ui/react";
+import { useEffect, useRef } from "react";
 
 type Props = {
   items: Array<ComboboxItem>;
@@ -26,21 +28,32 @@ const PrimaryCombobox = ({
   onBlur,
 }: Props) => {
   const { contains } = useFilter({ sensitivity: "base" });
-  const { collection, filter } = useListCollection({
-    initialItems: items,
+  const { collection, filter, set } = useListCollection<ComboboxItem>({
+    initialItems: [],
     filter: contains,
   });
+  // syncSelectedItemsでvalueと表示値の同期が必要。
+  const combobox = useCombobox({
+    collection,
+    name,
+    value: value ? [value] : [],
+    onValueChange: ({ value: v }) => onChange(v[0] || ""),
+    onInputValueChange: (e) => filter(e.inputValue),
+    onInteractOutside: onBlur,
+  });
+  // データソースが非同期取得の場合、明示的にsetする必要あり。
+  useEffect(() => {
+    set(items);
+  }, [items]);
+
+  const hydrated = useRef(false);
+  if (combobox.value.length && collection.size && !hydrated.current) {
+    combobox.syncSelectedItems();
+    hydrated.current = true;
+  }
+
   return (
-    <Combobox.Root
-      name={name}
-      value={value ? [value] : []}
-      defaultValue={value ? [value] : []}
-      onValueChange={({ value: v }) => onChange(v[0] || "")}
-      collection={collection}
-      onInputValueChange={(e) => filter(e.inputValue)}
-      onInteractOutside={onBlur}
-      width="300px"
-    >
+    <Combobox.RootProvider value={combobox} width="300px">
       <Combobox.Control>
         <Combobox.Input placeholder={label} />
         <Combobox.IndicatorGroup>
@@ -61,7 +74,7 @@ const PrimaryCombobox = ({
           </Combobox.Content>
         </Combobox.Positioner>
       </Portal>
-    </Combobox.Root>
+    </Combobox.RootProvider>
   );
 };
 
