@@ -3,6 +3,10 @@ import PrimaryCombobox from "../atoms/PrimaryCombobox";
 import type { Battle } from "@/types/Battle";
 import { useController, useFieldArray, useForm } from "react-hook-form";
 import PrimarySwitch from "../atoms/PrimarySwitch";
+import { createClient } from "@supabase/supabase-js";
+import { useEffect, useState } from "react";
+import type { Database } from "@/types/database.types";
+import type { ComboboxItem } from "@/types/ComboboxItem";
 
 type FormValue = {
   title: string;
@@ -19,12 +23,22 @@ const Edit = () => {
       { lrig: "3", isFirst: false, won: false },
     ],
   };
-  const lrigList = [
-    { label: "タマ", value: "1" },
-    { label: "花代", value: "2" },
-    { label: "緑子", value: "3" },
-    { label: "ピルルク", value: "4" },
-  ];
+  const supabase = createClient<Database>(
+    import.meta.env.VITE_SUPABASE_URL,
+    import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+  );
+  const [lrigList, setLrigList] = useState<Array<ComboboxItem> | null>([]);
+  useEffect(() => {
+    (async () => {
+      const { data } = await supabase.from("m_lrigs").select();
+      setLrigList(
+        data?.map((x) => ({
+          label: x.lrig_name ?? "",
+          value: x.lrig_id.toString(),
+        })) ?? [],
+      );
+    })();
+  }, []);
   const { register, control, handleSubmit } = useForm<FormValue>({
     defaultValues: dummyDefaultValues,
   });
@@ -44,7 +58,7 @@ const Edit = () => {
           placeholder="タイトル"
           width={{ base: "100%", sm: "50%" }}
         />
-        <PrimaryCombobox {...lrig} items={lrigList} label="使用ルリグ" />
+        <PrimaryCombobox {...lrig} items={lrigList!} label="使用ルリグ" />
       </Flex>
       <Stack m={4} gap={4}>
         {fields.map((field, index) => {
@@ -63,7 +77,11 @@ const Edit = () => {
           return (
             // <BattleResult key={field.id} index={index} lrigList={lrigList} />
             <Flex key={field.id} gap={8}>
-              <PrimaryCombobox {...enemy} items={lrigList} label="使用ルリグ" />
+              <PrimaryCombobox
+                {...enemy}
+                items={lrigList!}
+                label="使用ルリグ"
+              />
               <PrimarySwitch
                 {...isFirst}
                 innerLabel={{ on: "先", off: "後" }}
