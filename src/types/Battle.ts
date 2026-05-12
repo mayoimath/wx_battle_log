@@ -1,5 +1,5 @@
 export type Battle = {
-  lrig: string;
+  lrig: number;
   isFirst: boolean;
   won: boolean;
 };

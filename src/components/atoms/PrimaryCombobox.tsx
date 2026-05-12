@@ -1,11 +1,5 @@
 import type { ComboboxItem } from "@/types/ComboboxItem";
-import {
-  Combobox,
-  Portal,
-  useCombobox,
-  useFilter,
-  useListCollection,
-} from "@chakra-ui/react";
+import { Combobox, Portal, useCombobox, useFilter, useListCollection } from "@chakra-ui/react";
 import { useEffect, useRef } from "react";
 
 type Props = {
@@ -13,20 +7,12 @@ type Props = {
   label: string;
   notFoundText?: string;
   name: string;
-  value: string;
+  value: number;
   onChange: (value: any) => void;
   onBlur: () => void;
 };
 
-const PrimaryCombobox = ({
-  items,
-  label,
-  notFoundText,
-  name,
-  value,
-  onChange,
-  onBlur,
-}: Props) => {
+const PrimaryCombobox = ({ items, label, notFoundText, name, value, onChange, onBlur }: Props) => {
   const { contains } = useFilter({ sensitivity: "base" });
   const { collection, filter, set } = useListCollection<ComboboxItem>({
     initialItems: [],
@@ -36,7 +22,7 @@ const PrimaryCombobox = ({
   const combobox = useCombobox({
     collection,
     name,
-    value: value ? [value] : [],
+    value: value ? [value.toString()] : [],
     onValueChange: ({ value: v }) => onChange(v[0] || ""),
     onInputValueChange: (e) => filter(e.inputValue),
     onInteractOutside: onBlur,

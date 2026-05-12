@@ -1,4 +1,4 @@
 export type ComboboxItem = {
   label: string;
-  value: string;
+  value: number;
 };

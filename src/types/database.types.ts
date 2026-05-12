@@ -23,6 +23,7 @@ export type Database = {
           opponent_lrig_id: number
           play_first: boolean | null
           result: number | null
+          user_id: string | null
         }
         Insert: {
           created_at?: string
@@ -32,6 +33,7 @@ export type Database = {
           opponent_lrig_id: number
           play_first?: boolean | null
           result?: number | null
+          user_id?: string | null
         }
         Update: {
           created_at?: string
@@ -41,6 +43,7 @@ export type Database = {
           opponent_lrig_id?: number
           play_first?: boolean | null
           result?: number | null
+          user_id?: string | null
         }
         Relationships: [
           {
@@ -67,6 +70,7 @@ export type Database = {
           lrig_id: number
           memo: string | null
           title: string | null
+          user_id: string | null
         }
         Insert: {
           created_at?: string
@@ -75,6 +79,7 @@ export type Database = {
           lrig_id: number
           memo?: string | null
           title?: string | null
+          user_id?: string | null
         }
         Update: {
           created_at?: string
@@ -83,6 +88,7 @@ export type Database = {
           lrig_id?: number
           memo?: string | null
           title?: string | null
+          user_id?: string | null
         }
         Relationships: [
           {
@@ -117,13 +123,27 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      insert_log: {
+        Args: {
+          t_detail_rows: Database["public"]["CompositeTypes"]["arg_battle_log_detail"][]
+          t_log_row: Database["public"]["CompositeTypes"]["arg_battle_log"]
+        }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never
     }
     CompositeTypes: {
-      [_ in never]: never
+      arg_battle_log: {
+        lrig_id: number | null
+        title: string | null
+      }
+      arg_battle_log_detail: {
+        opponent_lrig_id: number | null
+        play_first: boolean | null
+        result: number | null
+      }
     }
   }
 }
