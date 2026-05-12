@@ -3,9 +3,8 @@ import PrimaryCombobox from "../atoms/PrimaryCombobox";
 import type { Battle } from "@/types/Battle";
 import { useController, useFieldArray, useForm } from "react-hook-form";
 import PrimarySwitch from "../atoms/PrimarySwitch";
-import { useEffect, useState } from "react";
-import type { ComboboxItem } from "@/types/ComboboxItem";
-import { supabase } from "../../supabase/supabaseClient";
+import useFetchLrigList from "@/hooks/UseFetchLrigList.ts";
+import { supabase } from "@/supabase/supabaseClient";
 import { toaster } from "../ui/toaster";
 
 type FormValue = {
@@ -24,18 +23,8 @@ const Edit = () => {
     ],
   };
 
-  const [lrigList, setLrigList] = useState<Array<ComboboxItem> | null>([]);
-  useEffect(() => {
-    (async () => {
-      const { data } = await supabase.from("m_lrigs").select();
-      setLrigList(
-        data?.map((x) => ({
-          label: x.lrig_name ?? "",
-          value: x.lrig_id,
-        })) ?? [],
-      );
-    })();
-  }, []);
+  const [lrigList] = useFetchLrigList();
+
   const {
     register,
     control,
