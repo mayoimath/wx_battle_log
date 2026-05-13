@@ -10,7 +10,7 @@ const useFetchLrigList = () => {
       setLrigList(
         data?.map((x) => ({
           label: x.lrig_name ?? "",
-          value: x.lrig_id,
+          value: x.lrig_id.toString(),
         })) ?? [],
       );
     })();

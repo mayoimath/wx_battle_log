@@ -7,8 +7,8 @@ type Props = {
   label: string;
   notFoundText?: string;
   name: string;
-  value: number;
-  onChange: (value: any) => void;
+  value: string;
+  onChange: (...event: any[]) => void;
   onBlur: () => void;
 };
 
@@ -22,7 +22,7 @@ const PrimaryCombobox = ({ items, label, notFoundText, name, value, onChange, on
   const combobox = useCombobox({
     collection,
     name,
-    value: value ? [value.toString()] : [],
+    value: value ? [value] : [],
     onValueChange: ({ value: v }) => onChange(v[0] || ""),
     onInputValueChange: (e) => filter(e.inputValue),
     onInteractOutside: onBlur,

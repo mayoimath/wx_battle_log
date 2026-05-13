@@ -9,17 +9,17 @@ import { toaster } from "../ui/toaster";
 
 type FormValue = {
   title: string;
-  lrig: number;
+  lrig: string;
   battles: Array<Battle>;
 };
 
 const Edit = () => {
   const dummyDefaultValues: FormValue = {
     title: "xxxx",
-    lrig: 1,
+    lrig: "1",
     battles: [
-      { lrig: 2, isFirst: true, won: true },
-      { lrig: 3, isFirst: false, won: false },
+      { lrig: "2", isFirst: true, won: true },
+      { lrig: "3", isFirst: false, won: false },
     ],
   };
 
@@ -44,9 +44,9 @@ const Edit = () => {
   const onSubmit = handleSubmit((field) =>
     (async () => {
       const { error } = await supabase.rpc("insert_log", {
-        t_log_row: { lrig_id: field.lrig, title: field.title },
+        t_log_row: { lrig_id: Number(field.lrig), title: field.title },
         t_detail_rows: field.battles.map((battle) => ({
-          opponent_lrig_id: battle.lrig,
+          opponent_lrig_id: Number(battle.lrig),
           play_first: battle.isFirst,
           result: battle.won ? 1 : 0,
         })),
@@ -88,12 +88,7 @@ const Edit = () => {
           );
         })}
       </Stack>
-      <Button
-        onClick={() => append({ lrig: 1, isFirst: true, won: true })}
-        m={4}
-        mr={0}
-        disabled={isSubmitting}
-      >
+      <Button onClick={() => append({ lrig: "1", isFirst: true, won: true })} m={4} mr={0} disabled={isSubmitting}>
         追加
       </Button>
       <Button type="submit" m={4} disabled={isSubmitting}>

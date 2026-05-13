@@ -1,4 +1,5 @@
 export type ComboboxItem = {
   label: string;
-  value: number;
+  // ChakraUIのコンボボックスがstringでvalueを扱う。
+  value: string;
 };
