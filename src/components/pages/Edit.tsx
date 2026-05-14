@@ -1,11 +1,12 @@
 import { Button, Flex, Input, Stack } from "@chakra-ui/react";
 import PrimaryCombobox from "../atoms/PrimaryCombobox";
 import type { Battle } from "@/types/Battle";
-import { useController, useFieldArray, useForm } from "react-hook-form";
+import { Controller, useController, useFieldArray, useForm } from "react-hook-form";
 import PrimarySwitch from "../atoms/PrimarySwitch";
 import useFetchLrigList from "@/hooks/UseFetchLrigList.ts";
 import { supabase } from "@/supabase/supabaseClient";
 import { toaster } from "../ui/toaster";
+import BattleResult from "../molecules/BattleResult";
 
 type FormValue = {
   title: string;
@@ -37,10 +38,6 @@ const Edit = () => {
     name: "battles",
     control,
   });
-  const { field: lrig } = useController({
-    name: "lrig",
-    control,
-  });
   const onSubmit = handleSubmit((field) =>
     (async () => {
       const { error } = await supabase.rpc("insert_log", {
@@ -59,34 +56,12 @@ const Edit = () => {
     <form onSubmit={onSubmit}>
       <Flex m={4} gap={4}>
         <Input {...register("title")} placeholder="タイトル" width={{ base: "100%", sm: "50%" }} />
-        <PrimaryCombobox {...lrig} items={lrigList!} label="使用ルリグ" />
+        <Controller render={({ field }) => <PrimaryCombobox {...field} items={lrigList!} label="使用ルリグ" />} name="lrig" control={control} />
       </Flex>
-      {/* Hooksはトップレベルで宣言しないとNG */}
-      {/* 子コンポーネントに切り出す */}
       <Stack m={4} gap={4}>
-        {fields.map((field, index) => {
-          const { field: enemy } = useController({
-            name: `battles.${index}.lrig`,
-            control,
-          });
-          const { field: isFirst } = useController({
-            name: `battles.${index}.isFirst`,
-            control,
-          });
-          const { field: Won } = useController({
-            name: `battles.${index}.won`,
-            control,
-          });
-          return (
-            // <BattleResult key={field.id} index={index} lrigList={lrigList} />
-            <Flex key={field.id} gap={8}>
-              <PrimaryCombobox {...enemy} items={lrigList!} label="使用ルリグ" />
-              <PrimarySwitch {...isFirst} innerLabel={{ on: "先", off: "後" }} />
-              <PrimarySwitch {...Won} innerLabel={{ on: "勝", off: "負" }} />
-              <Button onClick={() => remove(index)}>削除</Button>
-            </Flex>
-          );
-        })}
+        {fields.map((field, index) => (
+          <BattleResult id={field.id} index={index} lrigList={lrigList!} control={control} onRemove={() => remove(index)} />
+        ))}
       </Stack>
       <Button onClick={() => append({ lrig: "1", isFirst: true, won: true })} m={4} mr={0} disabled={isSubmitting}>
         追加
