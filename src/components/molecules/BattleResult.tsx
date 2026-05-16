@@ -1,7 +1,7 @@
 import { Button, Flex } from "@chakra-ui/react";
 import PrimaryCombobox from "../atoms/PrimaryCombobox";
 import { Controller, type Control } from "react-hook-form";
-import type { Battle } from "@/types/Battle";
+import type { Battle } from "@/types/BattleLogDetail";
 import PrimarySwitch from "../atoms/PrimarySwitch";
 import type { ComboboxItem } from "@/types/ComboboxItem";
 

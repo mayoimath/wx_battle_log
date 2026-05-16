@@ -1,20 +1,14 @@
 import { Button, Flex, Input, Stack } from "@chakra-ui/react";
 import PrimaryCombobox from "../atoms/PrimaryCombobox";
-import type { Battle } from "@/types/Battle";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import useFetchLrigList from "@/hooks/UseFetchLrigList.ts";
-import { supabase } from "@/supabase/supabaseClient";
 import { toaster } from "../ui/toaster";
 import BattleResult from "../molecules/BattleResult";
-
-type FormValue = {
-  title: string;
-  lrig: string;
-  battles: Array<Battle>;
-};
+import type { BattleLog } from "@/types/BattleLog";
+import insertBattleLog from "@/functions/insertBattleLog";
 
 const Edit = () => {
-  const dummyDefaultValues: FormValue = {
+  const dummyDefaultValues: BattleLog = {
     title: "xxxx",
     lrig: "1",
     battles: [
@@ -30,7 +24,7 @@ const Edit = () => {
     control,
     handleSubmit,
     formState: { isSubmitting },
-  } = useForm<FormValue>({
+  } = useForm<BattleLog>({
     defaultValues: dummyDefaultValues,
   });
   const { fields, append, remove } = useFieldArray({
@@ -39,14 +33,7 @@ const Edit = () => {
   });
   const onSubmit = handleSubmit((field) =>
     (async () => {
-      const { error } = await supabase.rpc("insert_log", {
-        t_log_row: { lrig_id: Number(field.lrig), title: field.title },
-        t_detail_rows: field.battles.map((battle) => ({
-          opponent_lrig_id: Number(battle.lrig),
-          play_first: battle.isFirst,
-          result: battle.won ? 1 : 0,
-        })),
-      });
+      const { error } = await insertBattleLog(field);
       if (error) toaster.create({ title: "登録失敗", type: "error" });
       else toaster.create({ title: "登録成功", type: "success" });
     })(),
