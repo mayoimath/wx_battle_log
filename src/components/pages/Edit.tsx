@@ -6,18 +6,14 @@ import { toaster } from "../ui/toaster";
 import BattleResult from "../molecules/BattleResult";
 import type { BattleLog } from "@/types/BattleLog";
 import insertBattleLog from "@/functions/insertBattleLog";
+import { useParams } from "react-router";
+import useFetchBattleLog from "@/hooks/UseFetchBattleLog";
 
 const Edit = () => {
-  const dummyDefaultValues: BattleLog = {
-    title: "xxxx",
-    lrig: "1",
-    battles: [
-      { lrig: "2", isFirst: true, won: true },
-      { lrig: "3", isFirst: false, won: false },
-    ],
-  };
+  const { logNo } = useParams();
+  const battleLog = useFetchBattleLog(Number(logNo));
 
-  const [lrigList] = useFetchLrigList();
+  const lrigList = useFetchLrigList();
 
   const {
     register,
@@ -25,7 +21,7 @@ const Edit = () => {
     handleSubmit,
     formState: { isSubmitting },
   } = useForm<BattleLog>({
-    defaultValues: dummyDefaultValues,
+    values: battleLog,
   });
   const { fields, append, remove } = useFieldArray({
     name: "battles",
@@ -46,7 +42,7 @@ const Edit = () => {
       </Flex>
       <Stack m={4} gap={4}>
         {fields.map((field, index) => (
-          <BattleResult id={field.id} index={index} lrigList={lrigList!} control={control} onRemove={() => remove(index)} />
+          <BattleResult key={field.id} index={index} lrigList={lrigList!} control={control} onRemove={() => remove(index)} />
         ))}
       </Stack>
       <Button onClick={() => append({ lrig: "1", isFirst: true, won: true })} m={4} mr={0} disabled={isSubmitting}>
