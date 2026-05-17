@@ -8,7 +8,7 @@ export const Router = () => {
     <Routes>
       <Route element={<HeaderLayout />}>
         <Route index element={<Home />} />
-        <Route path="edit" element={<Edit />} />
+        <Route path="edit/:logNo" element={<Edit />} />
       </Route>
     </Routes>
   );

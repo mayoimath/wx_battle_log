@@ -15,7 +15,7 @@ const useFetchLrigList = () => {
       );
     })();
   }, []);
-  return [lrigList];
+  return lrigList;
 };
 
 export default useFetchLrigList;
