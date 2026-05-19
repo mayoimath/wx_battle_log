@@ -130,6 +130,14 @@ export type Database = {
         }
         Returns: undefined
       }
+      update_log: {
+        Args: {
+          t_detail_rows: Database["public"]["CompositeTypes"]["arg_battle_log_detail"][]
+          t_log_no: number
+          t_log_row: Database["public"]["CompositeTypes"]["arg_battle_log"]
+        }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never

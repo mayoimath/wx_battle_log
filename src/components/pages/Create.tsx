@@ -5,14 +5,10 @@ import useFetchLrigList from "@/hooks/UseFetchLrigList.ts";
 import { toaster } from "../ui/toaster";
 import BattleResult from "../molecules/BattleResult";
 import type { BattleLog } from "@/types/BattleLog";
-import { useParams } from "react-router";
-import useFetchBattleLog from "@/hooks/UseFetchBattleLog";
-import updateBattleLog from "@/functions/updateBattleLog";
+import insertBattleLog from "@/functions/insertBattleLog";
 
 const Edit = () => {
-  const { logNo } = useParams();
-  const battleLog = useFetchBattleLog(Number(logNo));
-
+  const battleLog: BattleLog = { title: "", lrig: "1", battles: [] };
   const lrigList = useFetchLrigList();
 
   const {
@@ -29,7 +25,7 @@ const Edit = () => {
   });
   const onSubmit = handleSubmit((field) =>
     (async () => {
-      const { error } = await updateBattleLog(Number(logNo), field);
+      const { error } = await insertBattleLog(field);
       if (error) toaster.create({ title: "更新失敗", type: "error" });
       else toaster.create({ title: "更新成功", type: "success" });
     })(),
