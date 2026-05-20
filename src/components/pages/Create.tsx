@@ -7,7 +7,7 @@ import BattleResult from "../molecules/BattleResult";
 import type { BattleLog } from "@/types/BattleLog";
 import insertBattleLog from "@/functions/insertBattleLog";
 
-const Edit = () => {
+const Create = () => {
   const battleLog: BattleLog = { title: "", lrig: "1", battles: [] };
   const lrigList = useFetchLrigList();
 
@@ -51,4 +51,4 @@ const Edit = () => {
   );
 };
 
-export default Edit;
+export default Create;
