@@ -1,19 +1,19 @@
+import useFetchSummary from "@/hooks/UseFetchSummary";
 import { Box, Button, Flex, Separator, Stack } from "@chakra-ui/react";
 
 const Home = () => {
-  const dummyList = [
-    { title: "xxxx", lrig: "タマ" },
-    { title: "yyyy", lrig: "花代" },
-    { title: "yyyy", lrig: "ピルルク" },
-  ];
+  const summary = useFetchSummary();
   return (
     <>
       <Stack m={4} gap={4}>
-        {dummyList.map((x, index) => (
+        {summary.map((x, index) => (
           <>
             <Flex key={index} gap={4} align="center">
               <Box>{x.title}</Box>
               <Box>使用ルリグ : {x.lrig}</Box>
+              <Box>
+                {x.wonCount}-{x.loseCount}
+              </Box>
               <Button onClick={() => {}}>編集</Button>
             </Flex>
             <Separator />
