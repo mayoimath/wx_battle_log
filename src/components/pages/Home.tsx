@@ -1,5 +1,6 @@
 import useFetchSummary from "@/hooks/UseFetchSummary";
 import { Box, Button, Flex, Separator, Stack } from "@chakra-ui/react";
+import { Link } from "react-router";
 
 const Home = () => {
   const summary = useFetchSummary();
@@ -18,10 +19,10 @@ const Home = () => {
             </Flex>
             <Separator />
           </>
-        ))}
+        )) ?? <></>}
       </Stack>
-      <Button m={4} onClick={() => {}}>
-        新規登録
+      <Button m={4} asChild>
+        <Link to="/battle_log">新規登録</Link>
       </Button>
     </>
   );
