@@ -10,6 +10,7 @@ const useFetchSummary = () => {
       if (!data) return;
       setSummary(
         data.map((d) => ({
+          logNo: d.log_no ?? 0,
           title: d.title ?? "",
           lrig: d.lrig_name ?? "",
           wonCount: d.won_count ?? 0,

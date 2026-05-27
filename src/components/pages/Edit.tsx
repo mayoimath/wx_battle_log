@@ -5,7 +5,7 @@ import useFetchLrigList from "@/hooks/UseFetchLrigList.ts";
 import { toaster } from "../ui/toaster";
 import BattleResult from "../molecules/BattleResult";
 import type { BattleLog } from "@/types/BattleLog";
-import { useParams } from "react-router";
+import { Link, useParams } from "react-router";
 import useFetchBattleLog from "@/hooks/UseFetchBattleLog";
 import updateBattleLog from "@/functions/updateBattleLog";
 
@@ -48,8 +48,11 @@ const Edit = () => {
       <Button onClick={() => append({ lrig: "1", isFirst: true, won: true })} m={4} mr={0} disabled={isSubmitting}>
         追加
       </Button>
-      <Button type="submit" m={4} disabled={isSubmitting}>
+      <Button type="submit" m={4} mr={0} disabled={isSubmitting}>
         登録
+      </Button>
+      <Button m={4} asChild>
+        <Link to="/">戻る</Link>
       </Button>
     </form>
   );
