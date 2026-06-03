@@ -1,8 +1,9 @@
 import type { Summary } from "@/types/Summary";
-import { Box, Button, Flex, Grid, GridItem, Separator, Text } from "@chakra-ui/react";
+import { Box, Flex, Grid, GridItem, Separator, Text } from "@chakra-ui/react";
 import React from "react";
-import { Link } from "react-router";
 import PrimaryScrollArea from "../atoms/PrimaryScrollArea";
+import EditButton from "../atoms/EditButton";
+import DeleteButton from "../atoms/DeleteButton";
 
 type Props = {
   summary: Array<Summary>;
@@ -43,10 +44,8 @@ const SummaryDetail = ({ summary }: Props) => {
               </GridItem>
               <GridItem>
                 <Flex gap={4}>
-                  <Button asChild>
-                    <Link to={`/battle_log/${x.logNo}`}>編集</Link>
-                  </Button>
-                  <Button>削除</Button>
+                  <EditButton link={`/battle_log/${x.logNo}`} />
+                  <DeleteButton onClick={() => {}} />
                 </Flex>
               </GridItem>
             </Grid>
