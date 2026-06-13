@@ -45,11 +45,11 @@ const Edit = () => {
           <BattleResult key={field.id} index={index} lrigList={lrigList!} control={control} onRemove={() => remove(index)} />
         ))}
       </Stack>
-      <Button onClick={() => append({ lrig: "1", isFirst: true, won: true })} m={4} mr={0} disabled={isSubmitting}>
+      <Button onClick={() => append({ lrig: "1", playFirst: "1", result: "1" })} m={4} mr={0} disabled={isSubmitting}>
         追加
       </Button>
       <Button type="submit" m={4} mr={0} disabled={isSubmitting}>
-        登録
+        更新
       </Button>
       <Button m={4} asChild>
         <Link to="/">戻る</Link>

@@ -1,9 +1,9 @@
 import { supabase } from "@/supabase/supabaseClient";
-import type { ComboboxItem } from "@/types/ComboboxItem";
+import type { OptionItem } from "@/types/OptionItem";
 import { useState, useEffect } from "react";
 
 const useFetchLrigList = () => {
-  const [lrigList, setLrigList] = useState<Array<ComboboxItem> | null>([]);
+  const [lrigList, setLrigList] = useState<Array<OptionItem> | null>([]);
   useEffect(() => {
     (async () => {
       const { data } = await supabase.from("m_lrigs").select();

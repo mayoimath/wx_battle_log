@@ -1,9 +1,9 @@
-import type { ComboboxItem } from "@/types/ComboboxItem";
+import type { OptionItem } from "@/types/OptionItem";
 import { Combobox, Portal, useCombobox, useFilter, useListCollection } from "@chakra-ui/react";
 import { useEffect, useRef } from "react";
 
 type Props = {
-  items: Array<ComboboxItem>;
+  items: Array<OptionItem>;
   label: string;
   notFoundText?: string;
   name: string;
@@ -14,7 +14,7 @@ type Props = {
 
 const PrimaryCombobox = ({ items, label, notFoundText, name, value, onChange, onBlur }: Props) => {
   const { contains } = useFilter({ sensitivity: "base" });
-  const { collection, filter, set } = useListCollection<ComboboxItem>({
+  const { collection, filter, set } = useListCollection<OptionItem>({
     initialItems: [],
     filter: contains,
   });
