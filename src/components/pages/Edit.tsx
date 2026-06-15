@@ -1,4 +1,4 @@
-import { Button, Flex, Input, Stack } from "@chakra-ui/react";
+import { Button, Flex, Input, Separator, Stack } from "@chakra-ui/react";
 import PrimaryCombobox from "../atoms/PrimaryCombobox";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import useFetchLrigList from "@/hooks/UseFetchLrigList.ts";
@@ -8,6 +8,7 @@ import type { BattleLog } from "@/types/BattleLog";
 import { Link, useParams } from "react-router";
 import useFetchBattleLog from "@/hooks/UseFetchBattleLog";
 import updateBattleLog from "@/functions/updateBattleLog";
+import React from "react";
 
 const Edit = () => {
   const { logNo } = useParams();
@@ -36,13 +37,21 @@ const Edit = () => {
   );
   return (
     <form onSubmit={onSubmit}>
-      <Flex m={4} gap={4}>
-        <Input {...register("title")} placeholder="タイトル" width={{ base: "100%", sm: "50%" }} />
-        <Controller render={({ field }) => <PrimaryCombobox {...field} items={lrigList!} label="使用ルリグ" />} name="lrig" control={control} />
+      <Flex m={4} gap={4} wrap="wrap">
+        <Input {...register("title")} placeholder="タイトル" width={{ base: "100%", md: "50%" }} />
+        <Controller
+          render={({ field }) => <PrimaryCombobox {...field} items={lrigList!} label="使用ルリグ" width="250px" />}
+          name="lrig"
+          control={control}
+        />
       </Flex>
-      <Stack m={4} gap={4}>
+      <Separator />
+      <Stack m={4} gapX={4}>
         {fields.map((field, index) => (
-          <BattleResult key={field.id} index={index} lrigList={lrigList!} control={control} onRemove={() => remove(index)} />
+          <React.Fragment key={field.id}>
+            <BattleResult index={index} lrigList={lrigList!} control={control} onRemove={() => remove(index)} />
+            <Separator />
+          </React.Fragment>
         ))}
       </Stack>
       <Button onClick={() => append({ lrig: "1", playFirst: "1", result: "1" })} m={4} mr={0} disabled={isSubmitting}>
