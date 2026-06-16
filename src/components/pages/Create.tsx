@@ -1,4 +1,4 @@
-import { Button, Flex, Input, Stack } from "@chakra-ui/react";
+import { Button, Flex, Input, Separator, Stack } from "@chakra-ui/react";
 import PrimaryCombobox from "../atoms/PrimaryCombobox";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import useFetchLrigList from "@/hooks/UseFetchLrigList.ts";
@@ -6,10 +6,11 @@ import { toaster } from "../ui/toaster";
 import BattleResult from "../molecules/BattleResult";
 import type { BattleLog } from "@/types/BattleLog";
 import insertBattleLog from "@/functions/insertBattleLog";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import React from "react";
 
 const Create = () => {
-  const battleLog: BattleLog = { title: "", lrig: "1", battles: [] };
+  const battleLog: BattleLog = { title: "", lrig: "", battles: [] };
   const lrigList = useFetchLrigList();
 
   const {
@@ -24,32 +25,42 @@ const Create = () => {
     name: "battles",
     control,
   });
-  const onSubmit = handleSubmit((field) =>
-    (async () => {
-      const { error } = await insertBattleLog(field);
-      if (error) toaster.create({ title: "更新失敗", type: "error" });
-      else toaster.create({ title: "更新成功", type: "success" });
-    })(),
-  );
+  const navigate = useNavigate();
+  const onSubmit = handleSubmit(async (field) => {
+    const { error } = await insertBattleLog(field);
+    if (error) {
+      toaster.create({ title: "登録失敗", type: "error" });
+      return;
+    }
+    toaster.create({ title: "登録しました。", type: "success" });
+    navigate("/");
+  });
   return (
     <>
       <form onSubmit={onSubmit}>
         <Flex m={4} gap={4}>
           <Input {...register("title")} placeholder="タイトル" width={{ base: "100%", sm: "50%" }} />
-          <Controller render={({ field }) => <PrimaryCombobox {...field} items={lrigList!} label="使用ルリグ" />} name="lrig" control={control} />
+          <Controller
+            render={({ field }) => <PrimaryCombobox {...field} items={lrigList!} label="使用ルリグ" width="250px" />}
+            name="lrig"
+            control={control}
+          />
         </Flex>
         <Stack m={4} gap={4}>
           {fields.map((field, index) => (
-            <BattleResult key={field.id} index={index} lrigList={lrigList!} control={control} onRemove={() => remove(index)} />
+            <React.Fragment key={field.id}>
+              <BattleResult index={index} lrigList={lrigList!} control={control} onRemove={() => remove(index)} />
+              <Separator />
+            </React.Fragment>
           ))}
         </Stack>
-        <Button onClick={() => append({ lrig: "1", playFirst: true, result: true })} m={4} mr={0} disabled={isSubmitting}>
+        <Button onClick={() => append({ lrig: "", playFirst: "1", result: "1" })} m={4} mr={0} disabled={isSubmitting}>
           追加
         </Button>
         <Button type="submit" m={4} mr={0} disabled={isSubmitting}>
           登録
         </Button>
-        <Button m={4} asChild>
+        <Button m={4} asChild disabled={isSubmitting}>
           <Link to="/">戻る</Link>
         </Button>
       </form>
