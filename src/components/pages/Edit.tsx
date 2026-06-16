@@ -38,7 +38,7 @@ const Edit = () => {
       return;
     }
 
-    toaster.create({ title: "更新成功", type: "success" });
+    toaster.create({ title: "更新しました。", type: "success" });
     navigate("/");
   });
   return (
@@ -60,7 +60,7 @@ const Edit = () => {
           </React.Fragment>
         ))}
       </Stack>
-      <Button onClick={() => append({ lrig: "1", playFirst: "1", result: "1" })} m={4} mr={0} disabled={isSubmitting}>
+      <Button onClick={() => append({ lrig: "", playFirst: "1", result: "1" })} m={4} mr={0} disabled={isSubmitting}>
         追加
       </Button>
       <Button type="submit" m={4} mr={0} disabled={isSubmitting}>
