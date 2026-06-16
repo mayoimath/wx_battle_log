@@ -9,6 +9,7 @@ import { Link, useParams } from "react-router";
 import useFetchBattleLog from "@/hooks/UseFetchBattleLog";
 import updateBattleLog from "@/functions/updateBattleLog";
 import React from "react";
+import { useNavigate } from "react-router";
 
 const Edit = () => {
   const { logNo } = useParams();
@@ -28,13 +29,18 @@ const Edit = () => {
     name: "battles",
     control,
   });
-  const onSubmit = handleSubmit((field) =>
-    (async () => {
-      const { error } = await updateBattleLog(Number(logNo), field);
-      if (error) toaster.create({ title: "更新失敗", type: "error" });
-      else toaster.create({ title: "更新成功", type: "success" });
-    })(),
-  );
+  const navigate = useNavigate();
+
+  const onSubmit = handleSubmit(async (field) => {
+    const { error } = await updateBattleLog(Number(logNo), field);
+    if (error) {
+      toaster.create({ title: "更新失敗", type: "error" });
+      return;
+    }
+
+    toaster.create({ title: "更新成功", type: "success" });
+    navigate("/");
+  });
   return (
     <form onSubmit={onSubmit}>
       <Flex m={4} gap={4} wrap="wrap">
@@ -60,7 +66,7 @@ const Edit = () => {
       <Button type="submit" m={4} mr={0} disabled={isSubmitting}>
         更新
       </Button>
-      <Button m={4} asChild>
+      <Button m={4} asChild disabled={isSubmitting}>
         <Link to="/">戻る</Link>
       </Button>
     </form>
