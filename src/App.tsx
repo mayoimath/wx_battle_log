@@ -2,6 +2,7 @@ import "./App.css";
 import { BrowserRouter } from "react-router";
 import { Router } from "./router/Router";
 import { Toaster } from "./components/ui/toaster";
+import { Analytics } from "@vercel/analytics/next";
 
 function App() {
   return (
@@ -9,6 +10,7 @@ function App() {
       <BrowserRouter>
         <Router />
         <Toaster />
+        <Analytics />
       </BrowserRouter>
     </>
   );
