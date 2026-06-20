@@ -10,6 +10,7 @@ import useFetchBattleLog from "@/hooks/UseFetchBattleLog";
 import updateBattleLog from "@/functions/updateBattleLog";
 import React from "react";
 import { useNavigate } from "react-router";
+import PrimaryScrollArea from "../atoms/PrimaryScrollArea";
 
 const Edit = () => {
   const { logNo } = useParams();
@@ -42,8 +43,8 @@ const Edit = () => {
     navigate("/");
   });
   return (
-    <form onSubmit={onSubmit}>
-      <Flex m={4} gap={4} wrap="wrap">
+    <Flex as="form" onSubmit={onSubmit} direction="column" h="full">
+      <Flex mx={4} my={2} gap={2} wrap="wrap">
         <Input {...register("title")} placeholder="タイトル" width={{ base: "100%", md: "50%" }} />
         <Controller
           render={({ field }) => <PrimaryCombobox {...field} items={lrigList!} label="使用ルリグ" width="250px" />}
@@ -52,24 +53,28 @@ const Edit = () => {
         />
       </Flex>
       <Separator />
-      <Stack m={4} gapX={4}>
-        {fields.map((field, index) => (
-          <React.Fragment key={field.id}>
-            <BattleResult index={index} lrigList={lrigList!} control={control} onRemove={() => remove(index)} />
-            <Separator />
-          </React.Fragment>
-        ))}
-      </Stack>
-      <Button onClick={() => append({ lrig: "", playFirst: "1", result: "1" })} m={4} mr={0} disabled={isSubmitting}>
-        追加
-      </Button>
-      <Button type="submit" m={4} mr={0} disabled={isSubmitting}>
-        更新
-      </Button>
-      <Button m={4} asChild disabled={isSubmitting}>
-        <Link to="/">戻る</Link>
-      </Button>
-    </form>
+      <PrimaryScrollArea flex="1">
+        <Stack p={4}>
+          {fields.map((field, index) => (
+            <React.Fragment key={field.id}>
+              <BattleResult index={index} lrigList={lrigList!} control={control} onRemove={() => remove(index)} />
+              <Separator />
+            </React.Fragment>
+          ))}
+        </Stack>
+      </PrimaryScrollArea>
+      <Flex p={4} gap={4}>
+        <Button onClick={() => append({ lrig: "", playFirst: "1", result: "1" })} disabled={isSubmitting}>
+          行追加
+        </Button>
+        <Button type="submit" disabled={isSubmitting}>
+          更新
+        </Button>
+        <Button asChild disabled={isSubmitting}>
+          <Link to="/">戻る</Link>
+        </Button>
+      </Flex>
+    </Flex>
   );
 };
 

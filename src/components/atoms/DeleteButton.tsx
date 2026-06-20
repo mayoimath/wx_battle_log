@@ -1,4 +1,4 @@
-import { Button } from "@chakra-ui/react";
+import { IconButton } from "@chakra-ui/react";
 import { MdDelete } from "react-icons/md";
 
 type Props = {
@@ -7,9 +7,9 @@ type Props = {
 
 const DeleteButton = ({ onClick }: Props) => {
   return (
-    <Button bg="red.500" onClick={onClick}>
+    <IconButton bg="red.500" onClick={onClick} size="xs">
       <MdDelete />
-    </Button>
+    </IconButton>
   );
 };
 

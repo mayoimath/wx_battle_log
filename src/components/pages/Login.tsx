@@ -49,7 +49,7 @@ function Login() {
   return (
     <form>
       <Flex justify="center" m={12}>
-        <Stack minW="500px">
+        <Stack width={{ base: "100%", md: "50%" }}>
           <Field.Root>
             <Field.Label>メールアドレス</Field.Label>
             <Input {...register("email")} placeholder="xxxx@yy.zz" />

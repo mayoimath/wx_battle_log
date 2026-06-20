@@ -25,7 +25,7 @@ const BattleResult = ({ index, lrigList, control, onRemove }: Props) => {
   ];
 
   return (
-    <Flex gap={8} alignItems="center">
+    <Flex gapX={8} gapY={2} alignItems="center" wrap="wrap">
       <Controller
         render={({ field }) => <PrimaryCombobox {...field} items={lrigList!} label="使用ルリグ" width="250px" />}
         name={`battles.${index}.lrig`}

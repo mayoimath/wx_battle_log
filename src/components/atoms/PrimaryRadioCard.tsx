@@ -1,5 +1,5 @@
 import type { OptionItem } from "@/types/OptionItem";
-import { HStack, RadioCard } from "@chakra-ui/react";
+import { Flex, HStack, RadioCard } from "@chakra-ui/react";
 import type { ValueChangeDetails } from "@zag-js/radio-group";
 import { RadioCardItem } from "../ui/radio-card";
 
@@ -12,13 +12,15 @@ type Props = {
 
 const PrimaryRadioCard = ({ value, onValueChange, title, options }: Props) => {
   return (
-    <RadioCard.Root value={value} onValueChange={onValueChange} size="sm">
-      {title ?? <RadioCard.Label>{title}</RadioCard.Label>}
-      <HStack>
-        {options.map((option) => (
-          <RadioCardItem {...option} />
-        ))}
-      </HStack>
+    <RadioCard.Root value={value} onValueChange={onValueChange} size="sm" variant="solid">
+      <Flex alignItems="center">
+        {title ?? <RadioCard.Label>{title}</RadioCard.Label>}
+        <HStack>
+          {options.map((option) => (
+            <RadioCardItem {...option} indicator={null} />
+          ))}
+        </HStack>
+      </Flex>
     </RadioCard.Root>
   );
 };

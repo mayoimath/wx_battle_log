@@ -1,5 +1,5 @@
 import type { Summary } from "@/types/Summary";
-import { Box, Flex, Grid, GridItem, Separator, Text } from "@chakra-ui/react";
+import { Box, Flex, Grid, GridItem, ScrollArea, Separator } from "@chakra-ui/react";
 import React from "react";
 import PrimaryScrollArea from "../atoms/PrimaryScrollArea";
 import EditButton from "../atoms/EditButton";
@@ -7,32 +7,17 @@ import DeleteButton from "../atoms/DeleteButton";
 
 type Props = {
   summary: Array<Summary>;
-};
+} & React.ComponentProps<typeof ScrollArea.Root>;
 
-const SummaryDetail = ({ summary }: Props) => {
+const SummaryDetail = ({ summary, ...props }: Props) => {
   return (
     <>
-      {/* Header */}
-      <Grid templateColumns={{ base: "1fr 1fr 1fr", md: "3fr 1fr 1fr 1fr" }} mx={4}>
-        <GridItem colSpan={{ base: 3, md: 1 }}>
-          <Text fontWeight="bold">Title</Text>
-        </GridItem>
-        <GridItem>
-          <Text fontWeight="bold">Lrig</Text>
-        </GridItem>
-        <GridItem>
-          <Text fontWeight="bold">Result</Text>
-        </GridItem>
-        <GridItem></GridItem>
-      </Grid>
-      <Separator />
-      <PrimaryScrollArea height="80vh">
-        {/* Details */}
+      <PrimaryScrollArea height="80vh" {...props}>
         {summary.map((x, index) => (
           <React.Fragment key={index}>
-            <Grid templateColumns={{ base: "1fr 1fr 1fr", md: "3fr 1fr 1fr 1fr" }} alignItems="center" mx={4} my={2}>
+            <Grid templateColumns={{ base: "1fr 1fr 1fr", md: "3fr 1fr 1fr 1fr" }} alignItems="center" mx={3} my={1}>
               <GridItem colSpan={{ base: 3, md: 1 }}>
-                <Box>{x.title}</Box>
+                <Box textStyle="xl">{x.title}</Box>
               </GridItem>
               <GridItem>
                 <Box>{x.lrig}</Box>
