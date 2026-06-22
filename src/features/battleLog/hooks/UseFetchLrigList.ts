@@ -1,4 +1,4 @@
-import { supabase } from "@/supabase/supabaseClient";
+import { supabase } from "@/lib/supabaseClient";
 import type { OptionItem } from "@/types/OptionItem";
 import { useState, useEffect } from "react";
 

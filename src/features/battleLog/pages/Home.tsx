@@ -1,9 +1,9 @@
-import useFetchSummary from "@/hooks/UseFetchSummary";
-import { supabase } from "@/supabase/supabaseClient";
+import { toaster } from "@/components/ui/toaster";
+import useFetchSummary from "@/features/battleLog/hooks/UseFetchSummary";
+import { supabase } from "@/lib/supabaseClient";
 import { Button, Flex } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router";
-import { toaster } from "../ui/toaster";
-import SummaryDetail from "../molecules/SummaryDetail";
+import SummaryDetail from "../components/SummaryDetail";
 
 const Home = () => {
   const summary = useFetchSummary();

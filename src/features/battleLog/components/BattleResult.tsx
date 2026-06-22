@@ -1,10 +1,10 @@
 import { Flex } from "@chakra-ui/react";
-import PrimaryCombobox from "../atoms/PrimaryCombobox";
+import PrimaryCombobox from "../../../components/atoms/PrimaryCombobox";
 import { Controller, type Control } from "react-hook-form";
 import type { OptionItem } from "@/types/OptionItem";
-import type { BattleLog } from "@/types/BattleLog";
-import PrimaryRadioCard from "../atoms/PrimaryRadioCard";
-import DeleteButton from "../atoms/DeleteButton";
+import PrimaryRadioCard from "../../../components/atoms/PrimaryRadioCard";
+import DeleteButton from "../../../components/atoms/DeleteButton";
+import type { BattleLog } from "../types/BattleLog";
 
 type Props = {
   index: number;

@@ -1,5 +1,4 @@
-import type { BattleLogDetail, BattleLogDetailDB } from "./BattleLogDetail";
-import { ToBattleLogDetail, ToBattleLogDetailDB } from "./BattleLogDetail";
+import { ToBattleLogDetail, ToBattleLogDetailDB, type BattleLogDetail, type BattleLogDetailDB } from "./BattleLogDetail";
 
 export type BattleLog = {
   title: string;

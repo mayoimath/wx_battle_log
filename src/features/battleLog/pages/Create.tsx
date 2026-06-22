@@ -1,14 +1,14 @@
 import { Button, Flex, Input, Separator, Stack } from "@chakra-ui/react";
-import PrimaryCombobox from "../atoms/PrimaryCombobox";
+import PrimaryCombobox from "../../../components/atoms/PrimaryCombobox";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
-import useFetchLrigList from "@/hooks/UseFetchLrigList.ts";
-import { toaster } from "../ui/toaster";
-import BattleResult from "../molecules/BattleResult";
-import type { BattleLog } from "@/types/BattleLog";
-import insertBattleLog from "@/functions/insertBattleLog";
+import useFetchLrigList from "@/features/battleLog/hooks/UseFetchLrigList";
+import { toaster } from "../../../components/ui/toaster";
+import BattleResult from "../components/BattleResult";
+import insertBattleLog from "@/features/battleLog/api/insertBattleLog";
 import { Link, useNavigate } from "react-router";
 import React from "react";
-import PrimaryScrollArea from "../atoms/PrimaryScrollArea";
+import PrimaryScrollArea from "../../../components/atoms/PrimaryScrollArea";
+import type { BattleLog } from "../types/BattleLog";
 
 const Create = () => {
   const battleLog: BattleLog = { title: "", lrig: "", battles: [] };

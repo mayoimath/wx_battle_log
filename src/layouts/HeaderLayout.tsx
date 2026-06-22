@@ -1,5 +1,5 @@
+import Header from "@/components/organisms/Header";
 import { Box, Flex } from "@chakra-ui/react";
-import Header from "../organisms/Header";
 import { Outlet } from "react-router";
 
 export const HeaderLayout = () => {

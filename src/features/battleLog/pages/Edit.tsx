@@ -1,16 +1,16 @@
 import { Button, Flex, Input, Separator, Stack } from "@chakra-ui/react";
-import PrimaryCombobox from "../atoms/PrimaryCombobox";
+import PrimaryCombobox from "../../../components/atoms/PrimaryCombobox";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
-import useFetchLrigList from "@/hooks/UseFetchLrigList.ts";
-import { toaster } from "../ui/toaster";
-import BattleResult from "../molecules/BattleResult";
-import type { BattleLog } from "@/types/BattleLog";
+import useFetchLrigList from "@/features/battleLog/hooks/UseFetchLrigList";
+import { toaster } from "../../../components/ui/toaster";
+import BattleResult from "../components/BattleResult";
+import type { BattleLog } from "../types/BattleLog";
 import { Link, useParams } from "react-router";
-import useFetchBattleLog from "@/hooks/UseFetchBattleLog";
-import updateBattleLog from "@/functions/updateBattleLog";
+import useFetchBattleLog from "@/features/battleLog/hooks/UseFetchBattleLog";
+import updateBattleLog from "@/features/battleLog/api/updateBattleLog";
 import React from "react";
 import { useNavigate } from "react-router";
-import PrimaryScrollArea from "../atoms/PrimaryScrollArea";
+import PrimaryScrollArea from "../../../components/atoms/PrimaryScrollArea";
 
 const Edit = () => {
   const { logNo } = useParams();

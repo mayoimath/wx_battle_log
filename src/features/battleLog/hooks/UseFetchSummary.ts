@@ -1,5 +1,5 @@
-import { supabase } from "@/supabase/supabaseClient";
-import type { Summary } from "@/types/Summary";
+import { supabase } from "@/lib/supabaseClient";
+import type { Summary } from "@/features/battleLog/types/Summary";
 import { useState, useEffect } from "react";
 
 const useFetchSummary = () => {

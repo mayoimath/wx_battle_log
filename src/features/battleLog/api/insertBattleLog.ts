@@ -1,5 +1,5 @@
-import { supabase } from "@/supabase/supabaseClient";
-import { ToBattleLogDB, type BattleLog } from "@/types/BattleLog";
+import { supabase } from "@/lib/supabaseClient";
+import { ToBattleLogDB, type BattleLog } from "../types/BattleLog";
 
 const insertBattleLog = async (battleLog: BattleLog) => {
   const { lrig_id, title, battle_log_details } = ToBattleLogDB(battleLog);

@@ -1,4 +1,4 @@
-import { supabase } from "@/supabase/supabaseClient";
+import { supabase } from "@/lib/supabaseClient";
 import type { User } from "@supabase/auth-js";
 import { useEffect, useState } from "react";
 import { Navigate, Outlet } from "react-router";

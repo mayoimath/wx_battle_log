@@ -1,6 +1,6 @@
-import { supabase } from "@/supabase/supabaseClient";
-import { ToBattleLog, type BattleLog } from "@/types/BattleLog";
+import { supabase } from "@/lib/supabaseClient";
 import { useState, useEffect } from "react";
+import { ToBattleLog, type BattleLog } from "../types/BattleLog";
 
 const useFetchBattleLog = (logNo: number) => {
   const [battleLog, setBattleLog] = useState<BattleLog>();

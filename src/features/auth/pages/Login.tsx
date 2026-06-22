@@ -1,9 +1,9 @@
 import { Button, Field, Flex, Input, Stack } from "@chakra-ui/react";
-import { PasswordInput } from "../ui/password-input";
 import { useForm } from "react-hook-form";
-import { supabase } from "@/supabase/supabaseClient";
+import { supabase } from "@/lib/supabaseClient";
 import { useNavigate } from "react-router";
-import { toaster } from "../ui/toaster";
+import { toaster } from "@/components/ui/toaster";
+import { PasswordInput } from "@/components/ui/password-input";
 
 type FormValue = {
   email: string;

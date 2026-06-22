@@ -1,9 +1,9 @@
-import type { Summary } from "@/types/Summary";
+import DeleteButton from "@/components/atoms/DeleteButton";
+import EditButton from "@/components/atoms/EditButton";
+import PrimaryScrollArea from "@/components/atoms/PrimaryScrollArea";
+import type { Summary } from "@/features/battleLog/types/Summary";
 import { Box, Flex, Grid, GridItem, ScrollArea, Separator } from "@chakra-ui/react";
 import React from "react";
-import PrimaryScrollArea from "../atoms/PrimaryScrollArea";
-import EditButton from "../atoms/EditButton";
-import DeleteButton from "../atoms/DeleteButton";
 
 type Props = {
   summary: Array<Summary>;
