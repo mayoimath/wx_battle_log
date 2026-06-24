@@ -2,20 +2,18 @@ import { Button, Flex, Input, Separator, Stack } from "@chakra-ui/react";
 import PrimaryCombobox from "../../../components/atoms/PrimaryCombobox";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import useFetchLrigList from "@/features/battleLog/hooks/UseFetchLrigList";
-import { toaster } from "../../../components/ui/toaster";
 import BattleResult from "../components/BattleResult";
 import type { BattleLog } from "../types/BattleLog";
-import { Link, useParams } from "react-router";
-import useFetchBattleLog from "@/features/battleLog/hooks/UseFetchBattleLog";
-import updateBattleLog from "@/features/battleLog/api/updateBattleLog";
+import { Link } from "react-router";
 import React from "react";
-import { useNavigate } from "react-router";
 import PrimaryScrollArea from "../../../components/atoms/PrimaryScrollArea";
 
-const Edit = () => {
-  const { logNo } = useParams();
-  const battleLog = useFetchBattleLog(Number(logNo));
+type Props = {
+  battleLog: BattleLog | undefined;
+  onSubmit: (data: BattleLog) => Promise<void>;
+};
 
+const BattleLogForm = ({ battleLog, onSubmit }: Props) => {
   const lrigList = useFetchLrigList();
 
   const {
@@ -26,24 +24,16 @@ const Edit = () => {
   } = useForm<BattleLog>({
     values: battleLog,
   });
+
   const { fields, append, remove } = useFieldArray({
     name: "battles",
     control,
   });
-  const navigate = useNavigate();
 
-  const onSubmit = handleSubmit(async (field) => {
-    const { error } = await updateBattleLog(Number(logNo), field);
-    if (error) {
-      toaster.create({ title: "更新失敗", type: "error" });
-      return;
-    }
+  const defaultLog = { lrig: "", playFirst: "1", result: "1" };
 
-    toaster.create({ title: "更新しました。", type: "success" });
-    navigate("/");
-  });
   return (
-    <Flex as="form" onSubmit={onSubmit} direction="column" h="full">
+    <Flex as="form" onSubmit={handleSubmit(onSubmit)} direction="column" h="full">
       <Flex mx={4} my={2} gap={2} wrap="wrap">
         <Input {...register("title")} placeholder="タイトル" width={{ base: "100%", md: "50%" }} />
         <Controller
@@ -64,7 +54,7 @@ const Edit = () => {
         </Stack>
       </PrimaryScrollArea>
       <Flex p={4} gap={4}>
-        <Button onClick={() => append({ lrig: "", playFirst: "1", result: "1" })} disabled={isSubmitting}>
+        <Button onClick={() => append(defaultLog)} disabled={isSubmitting}>
           行追加
         </Button>
         <Button type="submit" disabled={isSubmitting}>
@@ -78,4 +68,4 @@ const Edit = () => {
   );
 };
 
-export default Edit;
+export default BattleLogForm;

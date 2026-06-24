@@ -5,7 +5,7 @@ import { Button, Flex } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router";
 import SummaryDetail from "../components/SummaryDetail";
 
-const Home = () => {
+const BattleLogListPage = () => {
   const summary = useFetchSummary();
   const navigate = useNavigate();
   const onSignOut = async () => {
@@ -26,4 +26,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default BattleLogListPage;
