@@ -1,10 +1,13 @@
-import { ToBattleLogDetail, ToBattleLogDetailDB, type BattleLogDetail, type BattleLogDetailDB } from "./BattleLogDetail";
+import z from "zod";
+import { battleLogDetailSchema, ToBattleLogDetail, ToBattleLogDetailDB, type BattleLogDetailDB } from "./BattleLogDetail";
 
-export type BattleLog = {
-  title: string;
-  lrig: string;
-  battles: Array<BattleLogDetail>;
-};
+export const battleLogSchema = z.object({
+  title: z.string().min(1, "タイトルを入力してください。"),
+  lrig: z.string().min(1, "ルリグを選んでください。"),
+  battles: z.array(battleLogDetailSchema).min(1, "1戦も登録されていません。"),
+});
+
+export type BattleLog = z.infer<typeof battleLogSchema>;
 
 export type BattleLogDB = {
   title: string | null;

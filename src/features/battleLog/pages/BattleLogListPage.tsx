@@ -14,7 +14,7 @@ const BattleLogListPage = () => {
     navigate("/login");
   };
   return (
-    <Flex direction="column" p={4} h="full">
+    <Flex direction="column" p={2} h="full">
       <SummaryDetail summary={summary} flex="1" />
       <Flex justifyContent="stretch" p={4} gap={4}>
         <Button asChild>

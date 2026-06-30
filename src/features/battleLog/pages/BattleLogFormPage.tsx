@@ -14,8 +14,8 @@ const BattleLogFormPage = () => {
 
   const navigate = useNavigate();
 
+  const operation = isEdit ? "更新" : "登録";
   const onSubmit = async (field: BattleLog) => {
-    const operation = isEdit ? "更新" : "登録";
     const { error } = isEdit ? await updateBattleLog(Number(logNo), field) : await insertBattleLog(field);
     if (error) {
       toaster.create({ title: `${operation}失敗`, type: "error" });
@@ -25,7 +25,7 @@ const BattleLogFormPage = () => {
     toaster.create({ title: `${operation}しました。`, type: "success" });
     navigate("/");
   };
-  return <BattleLogForm {...{ battleLog, onSubmit }} />;
+  return <BattleLogForm {...{ battleLog, onSubmit, operation }} />;
 };
 
 export default BattleLogFormPage;

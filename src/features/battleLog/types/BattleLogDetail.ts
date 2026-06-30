@@ -1,8 +1,12 @@
-export type BattleLogDetail = {
-  lrig: string;
-  playFirst: string;
-  result: string;
-};
+import z from "zod";
+
+export const battleLogDetailSchema = z.object({
+  lrig: z.string().min(1, "ルリグを選んでください"),
+  playFirst: z.string(),
+  result: z.string(),
+});
+
+export type BattleLogDetail = z.infer<typeof battleLogDetailSchema>;
 
 export type BattleLogDetailDB = {
   opponent_lrig_id: number;

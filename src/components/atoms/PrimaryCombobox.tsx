@@ -42,7 +42,7 @@ const PrimaryCombobox = ({ items, label, notFoundText, name, value, onChange, on
   return (
     <Combobox.RootProvider value={combobox} {...(width != null ? { maxWidth: width } : {})}>
       <Combobox.Control>
-        <Combobox.Input placeholder={label} />
+        <Combobox.Input placeholder={label} onBlur={onBlur} />
         <Combobox.IndicatorGroup>
           <Combobox.ClearTrigger />
           <Combobox.Trigger />
