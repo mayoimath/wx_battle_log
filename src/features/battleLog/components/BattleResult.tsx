@@ -1,6 +1,6 @@
 import { Field, Flex } from "@chakra-ui/react";
 import PrimaryCombobox from "../../../components/atoms/PrimaryCombobox";
-import { Controller, useFormContext, type Control } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 import type { OptionItem } from "@/types/OptionItem";
 import PrimaryRadioCard from "../../../components/atoms/PrimaryRadioCard";
 import DeleteButton from "../../../components/atoms/DeleteButton";
