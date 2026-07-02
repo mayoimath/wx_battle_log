@@ -16,8 +16,8 @@ const PrimaryRadioCard = ({ value, onValueChange, title, options }: Props) => {
       <Flex alignItems="center">
         {title ?? <RadioCard.Label>{title}</RadioCard.Label>}
         <HStack>
-          {options.map((option) => (
-            <RadioCardItem {...option} indicator={null} />
+          {options.map((option, index) => (
+            <RadioCardItem key={index} {...option} indicator={null} />
           ))}
         </HStack>
       </Flex>
