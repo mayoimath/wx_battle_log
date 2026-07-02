@@ -1,4 +1,4 @@
-import { Field, Flex } from "@chakra-ui/react";
+import { Field, Flex, Grid, GridItem } from "@chakra-ui/react";
 import PrimaryCombobox from "../../../components/atoms/PrimaryCombobox";
 import { Controller, useFormContext } from "react-hook-form";
 import type { OptionItem } from "@/types/OptionItem";
@@ -29,31 +29,48 @@ const BattleResult = ({ index, lrigList, onRemove }: Props) => {
   } = useFormContext<BattleLog>();
   const error = Array.isArray(errors.battles) ? errors.battles[index] : null;
   return (
-    <Flex gapX={8} gapY={2} alignItems="center" wrap="wrap">
-      <Field.Root invalid={!!error?.lrig}>
-        <Controller
-          render={({ field }) => <PrimaryCombobox {...field} items={lrigList!} label="使用ルリグ" width="250px" />}
-          name={`battles.${index}.lrig`}
-          control={control}
-        />
-        {error?.lrig && <Field.ErrorText>{error.lrig.message}</Field.ErrorText>}
-      </Field.Root>
-      <Controller
-        render={({ field: { value, onChange } }) => (
-          <PrimaryRadioCard value={value} onValueChange={(e) => onChange(e.value)} options={playFirstOption} />
-        )}
-        name={`battles.${index}.playFirst`}
-        control={control}
-      />
-      <Controller
-        render={({ field: { value, onChange } }) => (
-          <PrimaryRadioCard value={value} onValueChange={(e) => onChange(e.value)} options={resultOption} />
-        )}
-        name={`battles.${index}.result`}
-        control={control}
-      />
-      <DeleteButton onClick={onRemove} />
-    </Flex>
+    <Grid
+      gap={2}
+      templateAreas={{
+        base: `
+          "lrig ."
+          "first delete"
+        `,
+        md: `"lrig first delete"`,
+      }}
+    >
+      <GridItem area="lrig">
+        <Field.Root invalid={!!error?.lrig}>
+          <Controller
+            render={({ field }) => <PrimaryCombobox {...field} items={lrigList!} label="使用ルリグ" />}
+            name={`battles.${index}.lrig`}
+            control={control}
+          />
+          {error?.lrig && <Field.ErrorText>{error.lrig.message}</Field.ErrorText>}
+        </Field.Root>
+      </GridItem>
+      <GridItem area="first">
+        <Flex gapX={6}>
+          <Controller
+            render={({ field: { value, onChange } }) => (
+              <PrimaryRadioCard value={value} onValueChange={(e) => onChange(e.value)} options={playFirstOption} />
+            )}
+            name={`battles.${index}.playFirst`}
+            control={control}
+          />
+          <Controller
+            render={({ field: { value, onChange } }) => (
+              <PrimaryRadioCard value={value} onValueChange={(e) => onChange(e.value)} options={resultOption} />
+            )}
+            name={`battles.${index}.result`}
+            control={control}
+          />
+        </Flex>
+      </GridItem>
+      <GridItem area="delete">
+        <DeleteButton onClick={onRemove} />
+      </GridItem>
+    </Grid>
   );
 };
 

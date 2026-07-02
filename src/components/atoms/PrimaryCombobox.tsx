@@ -10,10 +10,9 @@ type Props = {
   value: string;
   onChange: (...event: any[]) => void;
   onBlur: () => void;
-  width?: string | null;
 };
 
-const PrimaryCombobox = ({ items, label, notFoundText, name, value, onChange, onBlur, width }: Props) => {
+const PrimaryCombobox = ({ items, label, notFoundText, name, value, onChange, onBlur }: Props) => {
   const { contains } = useFilter({ sensitivity: "base" });
   const { collection, filter, set } = useListCollection<OptionItem>({
     initialItems: [],
@@ -40,7 +39,7 @@ const PrimaryCombobox = ({ items, label, notFoundText, name, value, onChange, on
   }
 
   return (
-    <Combobox.RootProvider value={combobox} {...(width != null ? { maxWidth: width } : {})}>
+    <Combobox.RootProvider value={combobox} w="fit-content">
       <Combobox.Control>
         <Combobox.Input placeholder={label} onBlur={onBlur} />
         <Combobox.IndicatorGroup>

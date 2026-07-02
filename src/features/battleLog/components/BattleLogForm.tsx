@@ -48,11 +48,7 @@ const BattleLogForm = ({ battleLog, onSubmit, operation }: Props) => {
             {errors.title && <Field.ErrorText>{errors.title.message}</Field.ErrorText>}
           </Field.Root>
           <Field.Root invalid={!!errors.lrig}>
-            <Controller
-              render={({ field }) => <PrimaryCombobox {...field} items={lrigList!} label="使用ルリグ" width="250px" />}
-              name="lrig"
-              control={control}
-            />
+            <Controller render={({ field }) => <PrimaryCombobox {...field} items={lrigList!} label="使用ルリグ" />} name="lrig" control={control} />
             {errors.lrig && <Field.ErrorText>{errors.lrig.message}</Field.ErrorText>}
           </Field.Root>
         </Flex>
