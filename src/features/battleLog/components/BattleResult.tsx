@@ -5,6 +5,7 @@ import type { OptionItem } from "@/types/OptionItem";
 import PrimaryRadioCard from "../../../components/atoms/PrimaryRadioCard";
 import DeleteButton from "../../../components/atoms/DeleteButton";
 import type { BattleLog } from "../types/BattleLog";
+import MemoButton from "@/components/atoms/MemoButton";
 
 type Props = {
   index: number;
@@ -26,6 +27,7 @@ const BattleResult = ({ index, lrigList, onRemove }: Props) => {
   const {
     control,
     formState: { errors },
+    register,
   } = useFormContext<BattleLog>();
   const error = Array.isArray(errors.battles) ? errors.battles[index] : null;
   return (
@@ -33,11 +35,12 @@ const BattleResult = ({ index, lrigList, onRemove }: Props) => {
       gap={2}
       templateAreas={{
         base: `
-          "lrig ."
+          "lrig memo"
           "first delete"
         `,
-        md: `"lrig first delete"`,
+        md: `"lrig first delete memo"`,
       }}
+      templateColumns={{ md: "1fr 2fr auto 1fr" }}
     >
       <GridItem area="lrig">
         <Field.Root invalid={!!error?.lrig}>
@@ -66,6 +69,10 @@ const BattleResult = ({ index, lrigList, onRemove }: Props) => {
             control={control}
           />
         </Flex>
+      </GridItem>
+      {/* TODO:ボタンエリアに統合 */}
+      <GridItem area="memo">
+        <MemoButton register={register(`battles.${index}.memo`)} />
       </GridItem>
       <GridItem area="delete">
         <DeleteButton onClick={onRemove} />

@@ -10,7 +10,9 @@ import insertBattleLog from "../api/insertBattleLog";
 const BattleLogFormPage = () => {
   const { logNo } = useParams();
   const isEdit = !!logNo;
-  const battleLog = isEdit ? useFetchBattleLog(Number(logNo)) : { title: "", lrig: "", battles: [{ lrig: "", playFirst: "1", result: "1" }] };
+  const battleLog = isEdit
+    ? useFetchBattleLog(Number(logNo))
+    : { title: "", lrig: "", battles: [{ lrig: "", playFirst: "1", result: "1", memo: "" }] };
 
   const navigate = useNavigate();
 
