@@ -36,7 +36,7 @@ const BattleLogForm = ({ battleLog, onSubmit, operation }: Props) => {
     control,
   });
 
-  const defaultLog = { lrig: "", playFirst: "1", result: "1" };
+  const defaultLog = { lrig: "", playFirst: "1", result: "1", memo: "" };
 
   const detailError = !Array.isArray(errors.battles) ? errors.battles?.message : null;
   return (
