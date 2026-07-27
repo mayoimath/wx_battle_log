@@ -44,7 +44,7 @@ const BattleLogForm = ({ battleLog, onSubmit, operation }: Props) => {
       <Flex as="form" onSubmit={handleSubmit(onSubmit)} direction="column" h="full">
         <Flex mx={4} my={2} gap={2} wrap="wrap">
           <Field.Root invalid={!!errors.title}>
-            <Input {...register("title")} placeholder="タイトル" width={{ base: "100%", md: "50%" }} />
+            <Input {...register("title")} placeholder="タイトル" width={{ base: "100%", md: "50%" }} aria-label="タイトル" />
             {errors.title && <Field.ErrorText>{errors.title.message}</Field.ErrorText>}
           </Field.Root>
           <Field.Root invalid={!!errors.lrig}>
