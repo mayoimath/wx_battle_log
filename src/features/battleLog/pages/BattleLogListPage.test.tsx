@@ -25,8 +25,6 @@ describe("初期表示", () => {
   test("対戦ログが表示される", async () => {
     expect(await screen.findAllByRole("listitem")).toHaveLength(3);
   });
-  // TODO:0件時の仕様
-  // test("対戦ログが0件の場合＊＊",()=>{})
   test("新規登録ボタン(リンク)が表示される", () => {
     const registerButton = screen.getByRole("link", { name: "新規登録" });
     expect(registerButton).toBeInTheDocument();
@@ -36,8 +34,3 @@ describe("初期表示", () => {
     expect(screen.getByRole("button", { name: "サインアウト" })).toBeInTheDocument();
   });
 });
-
-// describe("イベント", () => {
-// test("削除ボタン押下時、該当ログが削除される。", () => {});
-// test("サインアウトボタン押下時、サインアウトしログイン画面に遷移する。", () => {});
-// });
