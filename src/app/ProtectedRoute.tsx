@@ -1,20 +1,9 @@
-import { supabase } from "@/lib/supabaseClient";
-import type { User } from "@supabase/auth-js";
-import { useEffect, useState } from "react";
+import useAuth from "@/features/auth/hooks/UseAuth";
 import { Navigate, Outlet } from "react-router";
 
 const ProtectedRoute = () => {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => {
-      setUser(data.session?.user ?? null);
-      setLoading(false);
-    });
-  }, []);
-
+  const { user, loading } = useAuth();
   if (loading) return null;
-
   return user ? <Outlet /> : <Navigate to="/login" />;
 };
 

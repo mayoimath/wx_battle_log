@@ -1,15 +1,16 @@
 import { toaster } from "@/components/ui/toaster";
 import useFetchSummary from "@/features/battleLog/hooks/UseFetchSummary";
-import { supabase } from "@/lib/supabaseClient";
 import { Button, Flex } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router";
 import SummaryDetail from "../components/SummaryDetail";
+import useAuth from "@/features/auth/hooks/UseAuth";
 
 const BattleLogListPage = () => {
   const summary = useFetchSummary();
   const navigate = useNavigate();
+  const { signOut } = useAuth();
   const onSignOut = async () => {
-    await supabase.auth.signOut();
+    await signOut();
     toaster.create({ title: "サインアウト", type: "info" });
     navigate("/login");
   };

@@ -1,9 +1,9 @@
 import { Button, Field, Flex, Input, Stack } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-import { supabase } from "@/lib/supabaseClient";
 import { useNavigate } from "react-router";
 import { toaster } from "@/components/ui/toaster";
 import { PasswordInput } from "@/components/ui/password-input";
+import useAuth from "../hooks/UseAuth";
 
 type FormValue = {
   email: string;
@@ -13,11 +13,12 @@ type FormValue = {
 function Login() {
   const { register, handleSubmit } = useForm<FormValue>({ defaultValues: { email: "", password: "" } });
   const navigate = useNavigate();
+  const { signIn, signUp } = useAuth();
   const onSubmit = (mode: "signin" | "signup") =>
     handleSubmit((field) =>
       (async () => {
         if (mode == "signin") {
-          const { error } = await supabase.auth.signInWithPassword({ email: field.email, password: field.password });
+          const error = await signIn(field.email, field.password);
           if (error) {
             console.log(error);
             if (error.code == "invalid_credentials")
@@ -28,7 +29,7 @@ function Login() {
             navigate("/");
           }
         } else {
-          const { error } = await supabase.auth.signUp({ email: field.email, password: field.password });
+          const error = await signUp(field.email, field.password);
           if (error) {
             console.log(error);
             if (error.code == "invalid_credentials")
