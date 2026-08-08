@@ -1,15 +1,12 @@
-import { Button, Field, Flex, Input, Stack } from "@chakra-ui/react";
+import { Button, Field, Flex, Input, Separator, Stack, Text } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { toaster } from "@/components/ui/toaster";
 import { PasswordInput } from "@/components/ui/password-input";
 import useAuth from "../hooks/UseAuth";
 import type { AuthError } from "@supabase/supabase-js";
-
-type FormValue = {
-  email: string;
-  password: string;
-};
+import { loginInputSchema, type LoginInput } from "../types/LoginInput";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const getSignInErrorMessage = (error: AuthError) => {
   switch (error.code) {
@@ -36,46 +33,66 @@ const getSignUpErrorMessage = (error: AuthError) => {
 };
 
 const Login = () => {
-  const { register, handleSubmit } = useForm<FormValue>({ defaultValues: { email: "", password: "" } });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setError,
+  } = useForm<LoginInput>({
+    resolver: zodResolver(loginInputSchema),
+    defaultValues: { email: "", password: "" },
+  });
   const navigate = useNavigate();
   const { signIn, signUp } = useAuth();
-  const onSubmit = (mode: "signin" | "signup") =>
-    handleSubmit((field) =>
-      (async () => {
-        if (mode == "signin") {
-          const error = await signIn(field.email, field.password);
-          if (error) {
-            toaster.create({ title: "ログイン失敗", description: getSignInErrorMessage(error), type: "error" });
-            return;
-          }
-          toaster.create({ title: "ログイン", type: "success" });
-          navigate("/");
-        } else {
-          const error = await signUp(field.email, field.password);
-          if (error) {
-            toaster.create({ title: "ユーザー登録失敗", description: getSignUpErrorMessage(error), type: "error" });
-            return;
-          }
-          toaster.create({ title: "ユーザー登録成功", type: "success" });
-          navigate("/");
-        }
-      })(),
-    );
+  const onSignIn = async (field: LoginInput) => {
+    const error = await signIn(field.email, field.password);
+    if (error) {
+      console.log(`${error.code}:${error.message}`);
+      setError("root.serverError", { message: getSignInErrorMessage(error) });
+      return;
+    }
+    toaster.create({ title: "ログイン", type: "success" });
+    navigate("/");
+  };
+  const onSignUp = async (field: LoginInput) => {
+    const error = await signUp(field.email, field.password);
+    if (error) {
+      console.log(`${error.code}:${error.message}`);
+      setError("root.serverError", { message: getSignUpErrorMessage(error) });
+      return;
+    }
+    toaster.create({ title: "ユーザー登録成功", type: "success" });
+    navigate("/");
+  };
   return (
     <Flex justify="center" px={12} align="center" as="form" h="full">
-      <Stack width={{ base: "100%", md: "50%" }}>
-        <Field.Root>
+      <Stack width={{ base: "100%", md: "50%" }} gap={4}>
+        <Field.Root invalid={!!errors.email}>
           <Field.Label>メールアドレス</Field.Label>
           <Input {...register("email")} placeholder="xxxx@yy.zz" />
+          {errors.email && <Field.ErrorText>{errors.email.message}</Field.ErrorText>}
         </Field.Root>
-        <Field.Root>
+        <Field.Root invalid={!!errors.password}>
           <Field.Label>パスワード</Field.Label>
-          <PasswordInput {...register("password")} />
+          <PasswordInput {...register("password")} placeholder="6文字以上" />
+          {errors.password && <Field.ErrorText>{errors.password.message}</Field.ErrorText>}
         </Field.Root>
-        <Flex justify="space-around" m={4}>
-          <Button onClick={onSubmit("signin")}>ログイン</Button>
-          <Button onClick={onSubmit("signup")}>新規登録</Button>
-        </Flex>
+        {errors.root && (
+          <Text color="red.400" m={4}>
+            {errors.root.serverError.message}
+          </Text>
+        )}
+        <Button onClick={handleSubmit(onSignIn)} m="auto">
+          ログイン
+        </Button>
+        <Separator />
+        <Text whiteSpace="pre-wrap" fontSize={{ base: "xs", md: "md" }}>
+          <b>※初めての方</b>
+          {`は↑を入力して、登録してください。\n (登録に成功すると、そのままログインされます)`}
+        </Text>
+        <Button onClick={handleSubmit(onSignUp)} m="auto">
+          新規登録
+        </Button>
       </Stack>
     </Flex>
   );
