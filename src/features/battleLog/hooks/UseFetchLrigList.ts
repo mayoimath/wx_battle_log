@@ -6,7 +6,7 @@ const useFetchLrigList = () => {
   const [lrigList, setLrigList] = useState<Array<OptionItem> | null>([]);
   useEffect(() => {
     (async () => {
-      const { data } = await supabase.from("m_lrigs").select();
+      const { data } = await supabase.from("m_lrigs").select().order("lrig_name");
       setLrigList(
         data?.map((x) => ({
           label: x.lrig_name ?? "",
