@@ -4,7 +4,7 @@ import renderWithProviders from "@/test/render";
 import { supabase } from "@/lib/supabaseClient";
 
 // 対戦サマリ一覧画面(初期画面)
-const { supabaseMock } = vi.hoisted(() => {
+const supabaseMock = vi.hoisted(() => {
   const select = vi.fn().mockResolvedValue({
     data: [
       { log_no: 1, title: "test1", lrig_name: "タマ", won_count: 3, lose_count: 2 },
@@ -13,7 +13,7 @@ const { supabaseMock } = vi.hoisted(() => {
     ],
     error: null,
   });
-  return { supabaseMock: { from: vi.fn(() => ({ select })) } };
+  return { from: vi.fn(() => ({ select })) };
 });
 vi.mock(import("@/lib/supabaseClient.ts"), () => ({ supabase: supabaseMock as unknown as typeof supabase }));
 
