@@ -7,40 +7,39 @@ import React from "react";
 
 type Props = {
   summary: Array<Summary>;
+  onDelete: (logNo: number) => void;
 } & React.ComponentProps<typeof ScrollArea.Root>;
 
-const SummaryDetail = ({ summary, ...props }: Props) => {
+const SummaryDetail = ({ summary, onDelete, ...props }: Props) => {
   return (
-    <>
-      <PrimaryScrollArea height="80vh" {...props}>
-        <List.Root>
-          {summary.map((x, index) => (
-            <List.Item key={index}>
-              <Grid templateColumns={{ base: "1fr 1fr 1fr", md: "3fr 1fr 1fr 1fr" }} alignItems="center" mx={3} my={1}>
-                <GridItem colSpan={{ base: 3, md: 1 }}>
-                  <Box textStyle="xl">{x.title}</Box>
-                </GridItem>
-                <GridItem>
-                  <Box>{x.lrig}</Box>
-                </GridItem>
-                <GridItem>
-                  <Box>
-                    {x.wonCount}-{x.loseCount}
-                  </Box>
-                </GridItem>
-                <GridItem>
-                  <Flex gap={4}>
-                    <EditButton link={`/battle_log/${x.logNo}`} />
-                    <DeleteButton onClick={() => {}} />
-                  </Flex>
-                </GridItem>
-              </Grid>
-              <Separator />
-            </List.Item>
-          )) ?? <></>}
-        </List.Root>
-      </PrimaryScrollArea>
-    </>
+    <PrimaryScrollArea height="80vh" {...props}>
+      <List.Root>
+        {summary.map((x, index) => (
+          <List.Item key={index}>
+            <Grid templateColumns={{ base: "1fr 1fr 1fr", md: "3fr 1fr 1fr 1fr" }} alignItems="center" mx={3} my={1}>
+              <GridItem colSpan={{ base: 3, md: 1 }}>
+                <Box textStyle="xl">{x.title}</Box>
+              </GridItem>
+              <GridItem>
+                <Box>{x.lrig}</Box>
+              </GridItem>
+              <GridItem>
+                <Box>
+                  {x.wonCount}-{x.loseCount}
+                </Box>
+              </GridItem>
+              <GridItem>
+                <Flex gap={4}>
+                  <EditButton link={`/battle_log/${x.logNo}`} />
+                  <DeleteButton onClick={() => onDelete(x.logNo)} />
+                </Flex>
+              </GridItem>
+            </Grid>
+            <Separator />
+          </List.Item>
+        ))}
+      </List.Root>
+    </PrimaryScrollArea>
   );
 };
 

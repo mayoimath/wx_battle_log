@@ -19,7 +19,7 @@ const useFetchSummary = () => {
       );
     })();
   }, []);
-  return summary;
+  return [summary, setSummary] as const;
 };
 
 export default useFetchSummary;
