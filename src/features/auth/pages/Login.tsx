@@ -88,7 +88,7 @@ const Login = () => {
         <Separator />
         <Text whiteSpace="pre-wrap" fontSize={{ base: "xs", md: "md" }}>
           <b>※初めての方</b>
-          {`は↑を入力して、登録してください。\n (登録に成功すると、そのままログインされます)`}
+          は↑を入力して、登録してください。
         </Text>
         <Button onClick={handleSubmit(onSignUp)} m="auto">
           新規登録
