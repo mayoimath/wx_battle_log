@@ -1,6 +1,7 @@
 import DeleteButton from "@/components/atoms/DeleteButton";
 import EditButton from "@/components/atoms/EditButton";
 import PrimaryScrollArea from "@/components/atoms/PrimaryScrollArea";
+import ViewButton from "@/components/atoms/ViewButton";
 import type { Summary } from "@/features/battleLog/types/Summary";
 import { Box, Flex, Grid, GridItem, List, ScrollArea, Separator } from "@chakra-ui/react";
 import React from "react";
@@ -30,7 +31,8 @@ const SummaryDetail = ({ summary, onDelete, ...props }: Props) => {
               </GridItem>
               <GridItem>
                 <Flex gap={4}>
-                  <EditButton link={`/battle_log/${x.logNo}`} />
+                  <EditButton link={`/battle_logs/${x.logNo}/edit`} />
+                  <ViewButton link={`/battle_logs/${x.logNo}`} />
                   <DeleteButton onClick={() => onDelete(x.logNo)} />
                 </Flex>
               </GridItem>

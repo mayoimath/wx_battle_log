@@ -3,22 +3,22 @@ import PrimaryCombobox from "../../../components/atoms/PrimaryCombobox";
 import { Controller, FormProvider, useFieldArray, useForm } from "react-hook-form";
 import useFetchLrigList from "@/features/battleLog/hooks/UseFetchLrigList";
 import BattleResult from "../components/BattleResult";
-import { battleLogSchema, type BattleLog } from "../types/BattleLog";
+import { battleLogSchema, type BattleLogInput } from "../types/BattleLog";
 import { Link } from "react-router";
 import React from "react";
 import PrimaryScrollArea from "../../../components/atoms/PrimaryScrollArea";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 type Props = {
-  battleLog: BattleLog | undefined;
-  onSubmit: (data: BattleLog) => Promise<void>;
+  battleLog: BattleLogInput | undefined;
+  onSubmit: (data: BattleLogInput) => Promise<void>;
   operation: "登録" | "更新";
 };
 
 const BattleLogForm = ({ battleLog, onSubmit, operation }: Props) => {
   const lrigList = useFetchLrigList();
 
-  const methods = useForm<BattleLog>({
+  const methods = useForm<BattleLogInput>({
     resolver: zodResolver(battleLogSchema),
     values: battleLog,
     mode: "onTouched",
@@ -44,11 +44,20 @@ const BattleLogForm = ({ battleLog, onSubmit, operation }: Props) => {
       <Flex as="form" onSubmit={handleSubmit(onSubmit)} direction="column" h="full">
         <Flex mx={4} my={2} gap={2} wrap="wrap">
           <Field.Root invalid={!!errors.title}>
-            <Input {...register("title")} placeholder="タイトル" width={{ base: "100%", md: "50%" }} aria-label="タイトル" />
+            <Input
+              {...register("title")}
+              placeholder="タイトル"
+              width={{ base: "100%", md: "50%" }}
+              aria-label="タイトル"
+            />
             {errors.title && <Field.ErrorText>{errors.title.message}</Field.ErrorText>}
           </Field.Root>
           <Field.Root invalid={!!errors.lrig}>
-            <Controller render={({ field }) => <PrimaryCombobox {...field} items={lrigList!} label="使用ルリグ" />} name="lrig" control={control} />
+            <Controller
+              render={({ field }) => <PrimaryCombobox {...field} items={lrigList!} label="使用ルリグ" />}
+              name="lrig"
+              control={control}
+            />
             {errors.lrig && <Field.ErrorText>{errors.lrig.message}</Field.ErrorText>}
           </Field.Root>
         </Flex>

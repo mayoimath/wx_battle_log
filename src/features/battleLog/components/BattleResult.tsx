@@ -4,7 +4,7 @@ import { Controller, useFormContext } from "react-hook-form";
 import type { OptionItem } from "@/types/OptionItem";
 import PrimaryRadioCard from "../../../components/atoms/PrimaryRadioCard";
 import DeleteButton from "../../../components/atoms/DeleteButton";
-import type { BattleLog } from "../types/BattleLog";
+import type { BattleLogInput } from "../types/BattleLog";
 import MemoButton from "@/components/atoms/MemoButton";
 
 type Props = {
@@ -28,7 +28,7 @@ const BattleResult = ({ index, lrigList, onRemove }: Props) => {
     control,
     formState: { errors },
     register,
-  } = useFormContext<BattleLog>();
+  } = useFormContext<BattleLogInput>();
   const error = Array.isArray(errors.battles) ? errors.battles[index] : null;
   return (
     <Grid

@@ -1,11 +1,15 @@
 import { supabase } from "@/lib/supabaseClient";
-import { ToBattleLogDB, type BattleLog } from "../types/BattleLog";
+import { type BattleLogInput } from "../types/BattleLog";
 
-const insertBattleLog = async (battleLog: BattleLog) => {
-  const { lrig_id, title, battle_log_details } = ToBattleLogDB(battleLog);
+const insertBattleLog = async ({ title, lrig, battles }: BattleLogInput) => {
   return await supabase.rpc("insert_log", {
-    t_log_row: { lrig_id, title },
-    t_detail_rows: battle_log_details,
+    t_log_row: { lrig_id: Number(lrig), title: title },
+    t_detail_rows: battles.map((battle) => ({
+      opponent_lrig_id: Number(battle.lrig),
+      play_first: battle.playFirst == "1",
+      result: Number(battle.result),
+      memo: battle.memo,
+    })),
   });
 };
 

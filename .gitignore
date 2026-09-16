@@ -25,3 +25,4 @@ dist-ssr
 wx_battle_log.code-workspace
 doc/
 .prettierrc
+supabase/.temp/

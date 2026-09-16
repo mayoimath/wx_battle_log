@@ -1,18 +1,12 @@
-import { supabase } from "@/lib/supabaseClient";
 import { useState, useEffect } from "react";
-import { ToBattleLog, type BattleLog } from "../types/BattleLog";
+import { type BattleLogDB } from "../types/BattleLog";
+import fetchBattleLog from "../api/fetchBattleLog";
 
 const useFetchBattleLog = (logNo: number) => {
-  const [battleLog, setBattleLog] = useState<BattleLog>();
+  const [battleLog, setBattleLog] = useState<BattleLogDB>();
   useEffect(() => {
     (async () => {
-      const { data } = await supabase
-        .from("battle_logs")
-        .select(`*,battle_log_details (opponent_lrig_id,play_first,result,memo) `)
-        .eq("log_no", logNo)
-        .single();
-      if (!data) return;
-      setBattleLog(ToBattleLog({ ...data }));
+      setBattleLog(await fetchBattleLog(logNo));
     })();
   }, []);
   return battleLog;
