@@ -38,11 +38,14 @@ const BattleLogListPage = () => {
         <Text m="auto">対戦記録を登録！</Text>
       )}
 
-      <Flex justifyContent="stretch" p={4} gap={4}>
+      <Flex justifyContent="center" p={4} gap={4}>
         <Button asChild {...(summary.length ? {} : { bg: "yellow.300", animation: "pulse" })}>
-          <Link to="/battle_log">新規登録</Link>
+          <Link to="/battle_logs/new">新規登録</Link>
         </Button>
         <Button onClick={onSignOut}>サインアウト</Button>
+        <Button asChild>
+          <Link to="/contact">問い合わせ</Link>
+        </Button>
       </Flex>
 
       <PrimaryDialog

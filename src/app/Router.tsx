@@ -5,6 +5,7 @@ import BattleLogListPage from "../features/battleLog/pages/BattleLogListPage";
 import ProtectedRoute from "@/app/ProtectedRoute";
 import Login from "@/features/auth/pages/Login";
 import BattleLogViewPage from "@/features/battleLog/pages/BattleLogViewPage";
+import Contact from "@/features/contact/pages/Contact";
 
 export const Router = () => {
   return (
@@ -18,6 +19,7 @@ export const Router = () => {
             <Route path=":logNo" element={<BattleLogViewPage />} />
             <Route path=":logNo/edit" element={<BattleLogFormPage />} />
           </Route>
+          <Route path="contact" element={<Contact />} />
         </Route>
       </Route>
     </Routes>
