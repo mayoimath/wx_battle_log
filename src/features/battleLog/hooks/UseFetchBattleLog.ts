@@ -1,15 +1,7 @@
-import { useState, useEffect } from "react";
-import { type BattleLogDB } from "../types/BattleLog";
 import fetchBattleLog from "../api/fetchBattleLog";
+import useSWR from "swr";
 
-const useFetchBattleLog = (logNo: number) => {
-  const [battleLog, setBattleLog] = useState<BattleLogDB>();
-  useEffect(() => {
-    (async () => {
-      setBattleLog(await fetchBattleLog(logNo));
-    })();
-  }, []);
-  return battleLog;
-};
+const useFetchBattleLog = (logNo?: number) =>
+  useSWR(logNo ? `/battle-log/${logNo}` : null, () => fetchBattleLog(logNo!));
 
 export default useFetchBattleLog;

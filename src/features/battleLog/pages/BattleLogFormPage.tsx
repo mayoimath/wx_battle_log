@@ -6,6 +6,7 @@ import updateBattleLog from "@/features/battleLog/api/updateBattleLog";
 import { useNavigate } from "react-router";
 import BattleLogForm from "../components/BattleLogForm";
 import insertBattleLog from "../api/insertBattleLog";
+import { Spinner } from "@chakra-ui/react";
 
 const toBattleLogInput = (battleLog: BattleLogDB | undefined): BattleLogInput | undefined => {
   if (!battleLog) return undefined;
@@ -25,11 +26,15 @@ const toBattleLogInput = (battleLog: BattleLogDB | undefined): BattleLogInput | 
 const BattleLogFormPage = () => {
   const { logNo } = useParams();
   const isEdit = !!logNo;
-  const battleLog = isEdit
-    ? toBattleLogInput(useFetchBattleLog(Number(logNo)))
-    : { title: "", lrig: "", battles: [{ lrig: "", playFirst: "1", result: "1", memo: "" }] };
-
+  const { data, error, isLoading } = useFetchBattleLog(isEdit ? Number(logNo) : undefined);
   const navigate = useNavigate();
+
+  if (isLoading) return <Spinner m="auto" position="absolute" top="50%" left="50%" />;
+  if (error) return <div>データが取得できませんでした。</div>;
+
+  const battleLog = isEdit
+    ? toBattleLogInput(data)
+    : { title: "", lrig: "", battles: [{ lrig: "", playFirst: "1", result: "1", memo: "" }] };
 
   const operation = isEdit ? "更新" : "登録";
   const onSubmit = async (field: BattleLogInput) => {

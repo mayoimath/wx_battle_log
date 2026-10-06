@@ -1,21 +1,20 @@
 import { supabase } from "@/lib/supabaseClient";
 import type { OptionItem } from "@/types/OptionItem";
-import { useState, useEffect } from "react";
+import useSWR from "swr";
+
+const fetcher = async (): Promise<OptionItem[]> => {
+  const { data, error } = await supabase.from("m_lrigs").select().order("lrig_name");
+  if (error) throw error;
+
+  return data.map((d) => ({
+    label: d.lrig_name ?? "",
+    value: d.lrig_id.toString(),
+  }));
+};
 
 const useFetchLrigList = () => {
-  const [lrigList, setLrigList] = useState<Array<OptionItem> | null>([]);
-  useEffect(() => {
-    (async () => {
-      const { data } = await supabase.from("m_lrigs").select().order("lrig_name");
-      setLrigList(
-        data?.map((x) => ({
-          label: x.lrig_name ?? "",
-          value: x.lrig_id.toString(),
-        })) ?? [],
-      );
-    })();
-  }, []);
-  return lrigList;
+  const { data, error, isLoading } = useSWR("lrig-list", fetcher);
+  return { lrigList: data ?? [], error, isLoading };
 };
 
 export default useFetchLrigList;

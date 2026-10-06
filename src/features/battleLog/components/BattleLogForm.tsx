@@ -16,7 +16,7 @@ type Props = {
 };
 
 const BattleLogForm = ({ battleLog, onSubmit, operation }: Props) => {
-  const lrigList = useFetchLrigList();
+  const { lrigList } = useFetchLrigList();
 
   const methods = useForm<BattleLogInput>({
     resolver: zodResolver(battleLogSchema),
@@ -73,7 +73,6 @@ const BattleLogForm = ({ battleLog, onSubmit, operation }: Props) => {
               <React.Fragment key={field.id}>
                 <BattleResult
                   index={index}
-                  lrigList={lrigList!}
                   onRemove={() => {
                     remove(index);
                     trigger();

@@ -1,6 +1,6 @@
 import { toaster } from "@/components/ui/toaster";
 import useFetchSummary from "@/features/battleLog/hooks/UseFetchSummary";
-import { Button, Flex, Text } from "@chakra-ui/react";
+import { Button, Flex, Spinner, Text } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router";
 import SummaryDetail from "../components/SummaryDetail";
 import useAuth from "@/features/auth/hooks/UseAuth";
@@ -9,7 +9,7 @@ import PrimaryDialog from "@/components/atoms/PrimaryDialog";
 import { useState } from "react";
 
 const BattleLogListPage = () => {
-  const [summary, setSummary] = useFetchSummary();
+  const { summary, error, isLoading, mutate } = useFetchSummary();
   const navigate = useNavigate();
   const { signOut } = useAuth();
   const [deleteTarget, setDeleteTarget] = useState<number | null>(null);
@@ -26,9 +26,12 @@ const BattleLogListPage = () => {
       toaster.create({ title: "削除失敗", type: "error" });
       return;
     }
-    setSummary(summary.filter((x) => x.logNo != logNo));
+    mutate();
     toaster.create({ title: "削除しました。", type: "success" });
   };
+
+  if (isLoading) return <Spinner m="auto" position="absolute" top="50%" left="50%" />;
+  if (error) return <div>データが取得できませんでした。</div>;
 
   return (
     <Flex direction="column" p={2} h="full" justifyContent="center">

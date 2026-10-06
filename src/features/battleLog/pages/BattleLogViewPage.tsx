@@ -1,4 +1,4 @@
-import { Button, Card, Flex, Heading, HStack, Stack, Text } from "@chakra-ui/react";
+import { Button, Card, Flex, Heading, HStack, Spinner, Stack, Text } from "@chakra-ui/react";
 import useFetchBattleLog from "../hooks/UseFetchBattleLog";
 import { Link, useParams } from "react-router";
 import type { BattleLogDB, BattleLogView } from "../types/BattleLog";
@@ -21,8 +21,12 @@ const toBattleLogView = (battleLog: BattleLogDB | undefined): BattleLogView | un
 
 const BattleLogViewPage = () => {
   const { logNo } = useParams();
-  const battleLog = toBattleLogView(useFetchBattleLog(Number(logNo)));
-  if (!battleLog) return null;
+  const { data, error, isLoading } = useFetchBattleLog(Number(logNo));
+
+  if (isLoading) return <Spinner m="auto" position="absolute" top="50%" left="50%" />;
+  if (error) return <div>データが取得できませんでした。</div>;
+
+  const battleLog = toBattleLogView(data)!;
 
   return (
     <Stack gap="4" p="4" h="full">

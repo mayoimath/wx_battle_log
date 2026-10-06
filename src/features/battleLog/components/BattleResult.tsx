@@ -1,19 +1,19 @@
 import { Field, Flex, Grid, GridItem } from "@chakra-ui/react";
 import PrimaryCombobox from "../../../components/atoms/PrimaryCombobox";
 import { Controller, useFormContext } from "react-hook-form";
-import type { OptionItem } from "@/types/OptionItem";
 import PrimaryRadioCard from "../../../components/atoms/PrimaryRadioCard";
 import DeleteButton from "../../../components/atoms/DeleteButton";
 import type { BattleLogInput } from "../types/BattleLog";
 import MemoButton from "@/components/atoms/MemoButton";
+import useFetchLrigList from "../hooks/UseFetchLrigList";
 
 type Props = {
   index: number;
-  lrigList: Array<OptionItem>;
   onRemove: () => void;
 };
 
-const BattleResult = ({ index, lrigList, onRemove }: Props) => {
+const BattleResult = ({ index, onRemove }: Props) => {
+  const { lrigList } = useFetchLrigList();
   const playFirstOption = [
     { label: "先", value: "1" },
     { label: "後", value: "0" },
