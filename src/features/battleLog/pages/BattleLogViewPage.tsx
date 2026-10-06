@@ -33,7 +33,7 @@ const BattleLogViewPage = () => {
       <PrimaryScrollArea flex="1">
         <Stack gap="2">
           {battleLog.detail.map((battle, index) => (
-            <Card.Root size="sm" maxW="90vw">
+            <Card.Root size="sm" maxW="90vw" key={index}>
               <Card.Body p="2">
                 <HStack>
                   <Text>{index + 1}.</Text>
