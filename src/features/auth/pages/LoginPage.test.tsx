@@ -1,6 +1,6 @@
 import renderWithProviders from "@/test/render";
 import { screen } from "@testing-library/react";
-import Login from "./Login";
+import LoginPage from "./LoginPage";
 import type { AuthError } from "@supabase/supabase-js";
 import userEvent from "@testing-library/user-event";
 
@@ -20,7 +20,7 @@ vi.mock("@/features/auth/hooks/UseAuth", () => ({
 
 beforeEach(() => {
   vi.resetAllMocks();
-  renderWithProviders(<Login />);
+  renderWithProviders(<LoginPage />);
 });
 
 describe("初期表示", () => {

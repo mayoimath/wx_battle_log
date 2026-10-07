@@ -13,7 +13,7 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
-const Contact = () => {
+const ContactPage = () => {
   const {
     register,
     handleSubmit,
@@ -69,4 +69,4 @@ const Contact = () => {
   );
 };
 
-export default Contact;
+export default ContactPage;
