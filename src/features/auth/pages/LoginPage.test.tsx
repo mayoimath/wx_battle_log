@@ -9,7 +9,7 @@ const authMock = vi.hoisted(() => ({
   signUp: vi.fn(),
 }));
 
-vi.mock("@/features/auth/hooks/UseAuth", () => ({
+vi.mock(import("@/features/auth/hooks/UseAuth"), () => ({
   default: () => ({
     user: null,
     loading: false,
@@ -17,6 +17,16 @@ vi.mock("@/features/auth/hooks/UseAuth", () => ({
     ...authMock,
   }),
 }));
+
+const navigateMock = vi.fn();
+
+vi.mock(import("react-router"), async (importOriginal) => {
+  const mod = await importOriginal();
+  return {
+    ...mod,
+    useNavigate: () => navigateMock,
+  };
+});
 
 beforeEach(() => {
   vi.resetAllMocks();
@@ -70,9 +80,10 @@ describe("ログイン", () => {
     await user.click(screen.getByRole("button", { name: "ログイン" }));
     expect(authMock.signIn).toHaveBeenCalledWith("abc@def.co.jp", "abcdef");
     expect(await screen.findByText("ユーザ情報が登録されていません。")).toBeInTheDocument();
+    expect(navigateMock).not.toHaveBeenCalledWith("/");
   });
 
-  test("登録済みのメールアドレス/パスワードの場合、ログイン成功のトースト通知が表示される。", async () => {
+  test("登録済みのメールアドレス/パスワードの場合、ログイン成功のトースト通知が表示され、一覧画面に遷移する。", async () => {
     const user = userEvent.setup();
     authMock.signIn.mockResolvedValue(null);
     await user.type(screen.getByRole("textbox", { name: "メールアドレス" }), "abc@def.co.jp");
@@ -80,6 +91,7 @@ describe("ログイン", () => {
     await user.click(screen.getByRole("button", { name: "ログイン" }));
     expect(authMock.signIn).toHaveBeenCalledWith("abc@def.co.jp", "abcdef");
     expect(await screen.findByRole("status")).toHaveTextContent("ログイン");
+    expect(navigateMock).toHaveBeenCalledWith("/");
   });
 });
 
@@ -101,15 +113,17 @@ describe("新規登録", () => {
     await user.click(screen.getByRole("button", { name: "新規登録" }));
     expect(authMock.signUp).toHaveBeenCalledWith("abc@def.co.jp", "abcdef");
     expect(await screen.findByText("そのユーザはすでに登録されています。")).toBeInTheDocument();
+    expect(navigateMock).not.toHaveBeenCalledWith("/");
   });
 
-  test("未登録のメールアドレス/パスワードの場合、新規登録成功のトースト通知が表示される。", async () => {
+  test("未登録のメールアドレス/パスワードの場合、新規登録成功のトースト通知が表示され、一覧画面に遷移する。", async () => {
     const user = userEvent.setup();
-    authMock.signIn.mockResolvedValue(null);
+    authMock.signUp.mockResolvedValue(null);
     await user.type(screen.getByRole("textbox", { name: "メールアドレス" }), "abc@def.co.jp");
     await user.type(screen.getByLabelText("パスワード"), "abcdef");
     await user.click(screen.getByRole("button", { name: "新規登録" }));
     expect(authMock.signUp).toHaveBeenCalledWith("abc@def.co.jp", "abcdef");
     expect(await screen.findByRole("status")).toHaveTextContent("ユーザー登録成功");
+    expect(navigateMock).toHaveBeenCalledWith("/");
   });
 });
